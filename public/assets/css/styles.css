@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'Kanit';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Kanit Regular'), local('Kanit-Regular'), url(../fonts/Kanit/Kanit-Regular.ttf) format('truetype');
+    unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+}
+
+html, body {
+    font-family: 'Roboto', 'Kanit', sans-serif;
+}
+
+.text-primary {
+    color: #e94a26!important;
+}
+
+.text-secondary {
+    color: #fdc32d!important;
+}
+
+.rounded-shadow {
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.15);
+}
+
+.box-shadow-1 {
+    box-shadow: 0px 5.2029px 20.8116px rgba(24,61,93,0.08);
+}
