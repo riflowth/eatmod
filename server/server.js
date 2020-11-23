@@ -1,6 +1,10 @@
+require('./config/config')
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const knex = require('./database/knex');
+const color = require('chalk');
 
 const app = express();
 const port = 8080;
@@ -21,11 +25,11 @@ app.use('/', appRoute);
 app.use('/api', apiRoute)
 
 app.listen(port, () => {
-  console.log('███████╗ █████╗ ████████╗███╗   ███╗ ██████╗ ██████╗ ');
-  console.log('██╔════╝██╔══██╗╚══██╔══╝████╗ ████║██╔═══██╗██╔══██╗');
-  console.log('█████╗  ███████║   ██║   ██╔████╔██║██║   ██║██║  ██║');
-  console.log('██╔══╝  ██╔══██║   ██║   ██║╚██╔╝██║██║   ██║██║  ██║');
-  console.log('███████╗██║  ██║   ██║   ██║ ╚═╝ ██║╚██████╔╝██████╔╝');
-  console.log('╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ ');                        
-  console.log(`EatMod server is up on http://localhost:${port}`)
+  console.log(color.yellow('███████╗ █████╗ ████████╗███╗   ███╗ ██████╗ ██████╗ '));
+  console.log(color.yellow('██╔════╝██╔══██╗╚══██╔══╝████╗ ████║██╔═══██╗██╔══██╗'));
+  console.log(color.yellow('█████╗  ███████║   ██║   ██╔████╔██║██║   ██║██║  ██║'));
+  console.log(color.yellow('██╔══╝  ██╔══██║   ██║   ██║╚██╔╝██║██║   ██║██║  ██║'));
+  console.log(color.yellow('███████╗██║  ██║   ██║   ██║ ╚═╝ ██║╚██████╔╝██████╔╝'));
+  console.log(color.yellow('╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ '));                        
+  console.log('> EatMod server is up on ' + color.green(`http://localhost:${port}`));
 })

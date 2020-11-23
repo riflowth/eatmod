@@ -117,3 +117,7 @@ dist
 
 # Prototype (For testing only)
 prototype
+
+# Others
+config.json
+.DS_Store
