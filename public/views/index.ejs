@@ -61,31 +61,9 @@
                     <div class="col-lg-12">
                         <h5 class=""><span class="text-primary"><i class="fas fa-star"></i></span> แนะนำเมนูเด็ด</h5>
                         <div class="row d-flex justify-content-center">
-                            <img class="mr-2 mb-2" src="https://www.eatingthaifood.com/wp-content/uploads/2015/06/goong-pao-1.jpg" style="object-fit: cover" width="180px" height="180px">
-                            <img class="mr-2 mb-2" src="https://theculturetrip.com/wp-content/uploads/2020/04/2bcpa1n.jpg" style="object-fit: cover" width="180px" height="180px">
-                            <img class="mr-2 mb-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS4pd9dElisPSoEAse7x2gSoohmTh5t_Uk2aw&usqp=CAU" style="object-fit: cover" width="180px" height="180px">
-                            <img class="mr-2 mb-2" src="https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/publications/food-beverage-nutrition/foodnavigator.com/article/2020/04/22/coronavirus-and-obesity-doctors-take-aim-at-food-industry-over-poor-diets/10933380-3-eng-GB/Coronavirus-and-obesity-Doctors-take-aim-at-food-industry-over-poor-diets_wrbm_large.jpg" style="object-fit: cover" width="180px" height="180px">
-                            <img class="mr-2 mb-2" src="https://cdn.cnn.com/cnnnext/dam/assets/140430115517-06-comfort-foods.jpg" style="object-fit: cover" width="180px" height="180px">
-                            <img class="mr-2 mb-2" src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Som_tam_thai.JPG" style="object-fit: cover" width="180px" height="180px">
-
-                            <!-- <div class="card mr-2 mb-2">
-                                <img class="card-img-top" src="https://via.placeholder.com/180" alt="">
-                            </div>
-                            <div class="card mr-2 mb-2">
-                                <img class="card-img-top" src="https://via.placeholder.com/180" alt="">
-                            </div>
-                            <div class="card mr-2 mb-2">
-                                <img class="card-img-top" src="https://via.placeholder.com/180" alt="">
-                            </div>
-                            <div class="card mr-2 mb-2">
-                                <img class="card-img-top" src="https://via.placeholder.com/180" alt="">
-                            </div>
-                            <div class="card mr-2 mb-2">
-                                <img class="card-img-top" src="https://via.placeholder.com/180" alt="">
-                            </div>
-                            <div class="card mr-2 mb-2">
-                                <img class="card-img-top" src="https://via.placeholder.com/180" alt="">
-                            </div> -->
+                            <% recommendMenus.forEach((menu) => { %>
+                            <img class="mr-2 mb-2" src="<%= menu.imgUrl %>" style="object-fit: cover" width="180px" height="180px">
+                            <% }); %>
                         </div>
                     </div>
                 </div>
@@ -97,59 +75,21 @@
         <div class="container py-5">
             <h3 class="mb-3"><i class="fas fa-trophy text-primary"></i> 4 อันดับร้านเด็ด</h3>
             <div class="row">
+                <% recommendShops.forEach((shop) => { %>
                 <div class="col-lg-3 col-md-6">
                     <div class="card box-shadow-1 mb-sm-3">
-                        <img class="card-img-top" src="https://i.ytimg.com/vi/NpPkXcc48Lk/maxresdefault.jpg" style="object-fit: cover" width="300" height="200" alt="">
-                        <!-- https://via.placeholder.com/300x200 -->
+                        <img class="card-img-top" src="<%= shop.imgUrl %>" style="object-fit: cover" width="300" height="200" alt="">
                         <div class="card-body">
-                            <h5 class="card-title">ข้าวแกงป้าแดง</h5>
-                            <p class="card-text">ข้าวแกงสูตรพริกเน้นๆ เด็ดสไตล์ป้าแดงสมชื่อ นอกจากเมนูเผ็ดยังมีเมนูผักเบาๆด้วยนะ</p>
+                            <h5 class="card-title"><%= shop.title %></h5>
+                            <p class="card-text"><%= shop.info %></p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" class="btn btn-outline-primary btn-sm ">อ่านรีวิว</a>
-                                <small class="text-muted"><i class="far fa-star"></i> 5 <i class="far fa-comments"></i> 20 รีวิว</small>
+                                <a href="<%= shop.reviewUrl %>" class="btn btn-outline-primary btn-sm ">อ่านรีวิว</a>
+                                <small class="text-muted"><i class="far fa-star"></i> <%= shop.rating %> <i class="far fa-comments"></i> <%= shop.review %> รีวิว</small>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card box-shadow-1 mb-sm-3">
-                        <img class="card-img-top" src="https://www.naewna.com/uploads/news/source/503993.jpg" style="object-fit: cover" width="300" height="200" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">ป้าอี๊ด</h5>
-                            <p class="card-text">ก๋วยเตี๋ยวน้ำข้นสูตรเด็ดจากป้าแมว ร้านนี้สมคำล่ำรือเรื่องน้ำซุปและเครื่องปรุง</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" class="btn btn-outline-primary btn-sm ">อ่านรีวิว</a>
-                                <small class="text-muted"><i class="far fa-star"></i> 4.8 <i class="far fa-comments"></i> 18 รีวิว</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card box-shadow-1 mb-sm-3">
-                        <img class="card-img-top" src="https://ed.edtfiles-media.com/static-cache/resize-cache/790x528/ud/images/1/135/404266/KTRAYTY-3_Cover.jpg" style="object-fit: cover" width="300" height="200" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">ป้าแมว</h5>
-                            <p class="card-text">ก๋วยเตี๋ยวน้ำข้นสูตรเด็ดจากป้าแมว ร้านนี้สมคำล่ำรือเรื่องน้ำซุปและเครื่องปรุง</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" class="btn btn-outline-primary btn-sm ">อ่านรีวิว</a>
-                                <small class="text-muted"><i class="far fa-star"></i> 4.3 <i class="far fa-comments"></i> 12 รีวิว</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card box-shadow-1 mb-sm-3">
-                        <img class="card-img-top" src="https://www.thaiticketmajor.com/bus/imgUpload/newsLarge6508_750.jpg" style="object-fit: cover" width="300" height="200" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">ร้านน้ำลุงหนุ่ม</h5>
-                            <p class="card-text">ขี้เกียจเขียนคำอธิบาย ก็แค่ออกแบบหน้าเว็บเฉยๆ อิอิ เมื่อไรจะเสร็จกันน๊าาาาา</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" class="btn btn-outline-primary btn-sm ">อ่านรีวิว</a>
-                                <small class="text-muted"><i class="far fa-star"></i> 4 <i class="far fa-comments"></i> 9 รีวิว</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <% }); %>
             </div>
         </div>
     </section>
