@@ -1,2 +1,2 @@
 # EatMod
-CPE100 Engineering Exploration
+CPE101 Engineering Exploration Project
