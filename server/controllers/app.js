@@ -18,4 +18,5 @@ exports.getShop = (req, res) => {
 };
 
 exports.getShops = (req, res) => {
+    res.render('shops', {});
 };
