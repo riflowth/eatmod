@@ -10,4 +10,16 @@ router.get(
     appController.getIndex
 );
 
+router.get(
+    '/shop/:id',
+    authMiddleware.isMember,
+    appController.getShop
+);
+
+router.get(
+    '/shop',
+    authMiddleware.isMember,
+    appController.getShops
+);
+
 module.exports = router;

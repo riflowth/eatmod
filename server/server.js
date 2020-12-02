@@ -3,11 +3,10 @@ require('./config/config')
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const knex = require('./database/knex');
 const color = require('chalk');
 
 const app = express();
-const port = 8080;
+const port = (process.env.PORT || 8080);
 
 const appRoute = require('./routes/app');
 const apiRoute = require('./routes/api');
@@ -22,7 +21,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', appRoute);
-app.use('/api', apiRoute)
+app.use('/api', apiRoute);
+app.use((req, res) => { res.redirect('/'); }); // 404 Error
 
 app.listen(port, () => {
   console.log(color.yellow('███████╗ █████╗ ████████╗███╗   ███╗ ██████╗ ██████╗ '));
@@ -30,6 +30,6 @@ app.listen(port, () => {
   console.log(color.yellow('█████╗  ███████║   ██║   ██╔████╔██║██║   ██║██║  ██║'));
   console.log(color.yellow('██╔══╝  ██╔══██║   ██║   ██║╚██╔╝██║██║   ██║██║  ██║'));
   console.log(color.yellow('███████╗██║  ██║   ██║   ██║ ╚═╝ ██║╚██████╔╝██████╔╝'));
-  console.log(color.yellow('╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ '));                        
+  console.log(color.yellow('╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ '));                 
   console.log('> EatMod server is up on ' + color.green(`http://localhost:${port}`));
-})
+});
