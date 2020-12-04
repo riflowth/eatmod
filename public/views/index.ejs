@@ -27,7 +27,7 @@
                         <h5 class=""><span class="text-primary"><i class="fas fa-star"></i></span> แนะนำเมนูเด็ด</h5>
                         <div class="row d-flex justify-content-center">
                             <% 
-                                if (typeof(recommendMenus) != 'undefined') {
+                                if (typeof(recommendsMenus) != 'undefined') {
                                     recommendMenus.forEach((menu) => { 
                             %>
                                 <img class="mr-2 mb-2" src="<%= menu.imgUrl %>" style="object-fit: cover" width="180px" height="180px">
@@ -51,11 +51,11 @@
                         recommendShops.forEach((shop) => { 
                 %>
                     <div class="col-lg-3 col-md-6">
-                        <div class="card box-shadow-1 mb-md-0 mb-4">
+                        <div class="card box-shadow-1 mb-sm-3">
                             <img class="card-img-top" src="<%= shop.imgUrl %>" style="object-fit: cover" width="300" height="200" alt="">
                             <div class="card-body">
-                                <h5 class="card-title mb-0"><%= shop.title %></h5>
-                                <p class="card-text text-muted"><%= shop.info %></p>
+                                <h5 class="card-title"><%= shop.name %></h5>
+                                <p class="card-text"><%= shop.type %></p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <a href="<%= shop.reviewUrl %>" class="btn btn-outline-primary btn-sm ">อ่านรีวิว</a>
                                     <small class="text-muted"><i class="far fa-star"></i> <%= shop.rating %> <i class="far fa-comments"></i> <%= shop.review %> รีวิว</small>
