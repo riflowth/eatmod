@@ -19,3 +19,7 @@ exports.getShop = (req, res) => {
 exports.getShops = (req, res) => {
     res.render('shops', {});
 };
+
+exports.getLogin = (req, res) => {
+    res.render('login', {});
+};

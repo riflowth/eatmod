@@ -1,0 +1,50 @@
+<%- include('includes/header') %>
+
+<body>
+    <%- include('includes/nav') %>
+
+    <div class="container">
+        <nav>
+            <ol class="breadcrumb bg-transparent py-2 mb-0">
+                <li class="breadcrumb-item"><a href="/">หน้าแรก</a></li>
+                <li class="breadcrumb-item active">เข้าสู่ระบบ</li>
+            </ol>
+        </nav>
+
+        <div class="row mt-4">
+            <div class="col-12 col-lg-6 mx-auto">
+                <div class="card box-shadow-1 text-center">
+                    <div class="card-body py-5">
+                        <h5 class="card-title">เข้าสู่ระบบ</h5>
+
+                        <form class="px-4 mt-4">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="อีเมล">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="รหัสผ่าน">
+                            </div>
+                            <button class="btn btn-primary btn-block" type="submit">เข้าสู่ระบบ</button>
+                            <div class="mt-2 d-flex justify-content-between">
+                                <div class="custom-control custom-checkbox custom-checkbox-primary">
+                                    <input id="remember-me-checkbox" class="custom-control-input custom-control-input-primary" type="checkbox">
+                                    <label class="custom-control-label" for="remember-me-checkbox"><small>จดจำการเข้าสู่ระบบ</small></label>
+                                </div>
+                                <small><u><a href="#">ลืมรหัสผ่าน?</a></u></small>
+                            </div>
+                        </form>
+
+                        <hr class="my-4">
+
+                        <div class="px-4">
+                            <button class="btn btn-outline-primary btn-block">เข้าสู่ระบบด้วย Google</button>
+                            <button class="btn btn-outline-primary btn-block">เข้าสู่ระบบด้วย Facebook</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('includes/footer') %>
+</body>
