@@ -22,4 +22,9 @@ router.get(
     appController.getShops
 );
 
+router.get(
+    '/login',
+    appController.getLogin
+);
+
 module.exports = router;

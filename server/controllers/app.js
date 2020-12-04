@@ -1,6 +1,14 @@
-exports.getIndex = (req, res) => {
-    // TODO for Backend
-    res.render('index');
+const shop = require('../models/shop')
+
+exports.getIndex = async (req, res) => {
+    // TODO
+    let shops = await shop.getShops();
+    res.render(
+        'index', {
+           recommendMenus: [],
+           recommendShops: shops
+        }
+    );
 };
 
 exports.getShop = (req, res) => {
@@ -10,4 +18,8 @@ exports.getShop = (req, res) => {
 
 exports.getShops = (req, res) => {
     res.render('shops', {});
+};
+
+exports.getLogin = (req, res) => {
+    res.render('login', {});
 };
