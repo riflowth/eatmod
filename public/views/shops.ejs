@@ -1,0 +1,44 @@
+<%- include('includes/header') %>
+
+<body>
+    <%- include('includes/nav') %>
+
+    <div class="container">
+        <nav>
+            <ol class="breadcrumb bg-transparent py-2 mb-0">
+                <li class="breadcrumb-item"><a href="/">หน้าแรก</a></li>
+                <li class="breadcrumb-item active">ร้านอาหาร</li>
+            </ol>
+        </nav>
+
+        <div class="text-center">
+            <h2 class="mt-4 mb-0">ร้านอาหาร</h2>
+            <small class="lead">รายการร้านอาหารทั้งหมด</small>
+        </div>
+        <hr class="my-4">
+
+        <div class="row">
+            <%
+                if (typeof(shops) != 'undefined') {
+                    shops.forEach((shop) => {
+                        // TODO: Implementing elements
+            %>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card box-shadow-1 mb-md-0 mb-4">
+                        <img class="card-img-top" src="" style="object-fit: cover" width="300" height="200" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0"></h5>
+                            <p class="card-text text-muted"></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="" class="btn btn-outline-primary btn-sm ">อ่านรีวิว</a>
+                                <small class="text-muted"><i class="far fa-star"></i>  <i class="far fa-comments"></i> รีวิว</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% })}; %>
+        </div>
+    </div>
+
+    <%- include('includes/footer') %>
+</body>

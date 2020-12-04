@@ -1,7 +1,5 @@
 const shop = require('../models/shop')
 
-
-
 exports.getIndex = async (req, res) => {
     // TODO
     let shops = await shop.getShops();
@@ -11,4 +9,13 @@ exports.getIndex = async (req, res) => {
            recommendShops: shops
         }
     );
+};
+
+exports.getShop = (req, res) => {
+    const { id } = req.params;
+    res.render('shop', {});
+};
+
+exports.getShops = (req, res) => {
+    res.render('shops', {});
 };
