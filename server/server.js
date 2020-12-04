@@ -22,7 +22,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', appRoute);
 app.use('/api', apiRoute);
-app.use((req, res) => { res.redirect('/'); }); // 404 Error
+
+// Error Handler
+app.use((err, req, res) => {
+  let statusCode = (err.status || 500);
+  console.log(`${statusCode} : ${err.message}`);
+  res.redirect('/');
+});
 
 app.listen(port, () => {
   console.log(color.yellow('███████╗ █████╗ ████████╗███╗   ███╗ ██████╗ ██████╗ '));
