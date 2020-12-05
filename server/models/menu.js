@@ -18,7 +18,7 @@ exports.getRandomMenu = async (req, res) => {
     for(i = 0; i < 6; i++)
         do{
            arrayUrl[i] = Math.floor(Math.random() * 39)+1;
-           console.log(arrayUrl[i]);
+           //console.log(arrayUrl[i]);
         } while(new Set(arrayUrl).size !== arrayUrl.length);
 
     let menus = await knex.select('image_url').whereIn('id', arrayUrl).from('foods');

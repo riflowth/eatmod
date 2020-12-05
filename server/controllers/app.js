@@ -1,5 +1,6 @@
 const Shop = require('../models/shop')
 const menu = require('../models/menu');
+const database = require('../models/database');
 
 exports.getIndex = async (req, res) => {
     // TODO
@@ -7,7 +8,21 @@ exports.getIndex = async (req, res) => {
     let menus = await menu.getMenu();
     let randomMenus = await menu.getRandomMenu();
 
-    console.log(randomMenus);
+    //test database manipulation function
+    let addFoodId = await database.insertFoodId();
+    let addFoodName = await database.insertFoodName();
+    let addFoodType = await database.insertFoodType();
+    let addFoodPrice = await database.insertFoodPrice();
+    let addFoodUrl = await database.insertFoodUrl();
+    let addFoodShopId = await database.insertFoodShopId();
+    addFoodId
+    addFoodName
+    addFoodType
+    addFoodPrice
+    addFoodUrl
+    addFoodShopId
+    //end of test zone
+
     res.render(
         'index', {
 //>>>           recommendMenus: [],
