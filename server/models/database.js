@@ -53,4 +53,4 @@ exports.insertFoodShopId = async (req, res) => {
     await knex('foods').where({ id: x }).update({ shop_id: insertShopId })
 }
 
-
+//
