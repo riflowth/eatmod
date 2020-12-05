@@ -1,16 +1,22 @@
 const Shop = require('../models/shop')
+const menu = require('../models/menu');
 
 exports.getIndex = async (req, res) => {
     // TODO
-    let shops = await Shop.getShops();
+//>>>    let shops = await Shop.getShops();
+    let menus = await menu.getMenu();
+    let randomMenus = await menu.getRandomMenu();
+
+    console.log(randomMenus);
     res.render(
         'index', {
-           recommendMenus: [],
-           recommendShops: shops
+//>>>           recommendMenus: [],
+//>>>           recommendShops: shops
         }
     );
 };
 
+/*>>>
 exports.getShop = async (req, res) => {
     const { id } = req.params;
     let shop = await Shop.getShop(id);
@@ -34,3 +40,5 @@ exports.getShops = (req, res) => {
 exports.getLogin = (req, res) => {
     res.render('login', {});
 };
+
+>>>*/

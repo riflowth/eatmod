@@ -9,7 +9,7 @@ router.get(
     authMiddleware.isMember,
     appController.getIndex
 );
-
+/*>>>
 router.get(
     '/shop/:id',
     authMiddleware.isMember,
@@ -26,5 +26,5 @@ router.get(
     '/login',
     appController.getLogin
 );
-
+>>>*/
 module.exports = router;
