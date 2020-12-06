@@ -1,4 +1,35 @@
 const Shop = require('../models/shop');
+const Menu = require('../models/menu');
+
+exports.addFoodData = (req, res) => {
+    let id = req.body.id;
+    let name = req.body.name;
+    let type = req.body.type;
+    let price = req.body.price;
+    let shop_id = req.body.shop_id;
+    Menu.insertFoodData(id,name,type,price,shop_id);
+  
+    res.status(201).json({ success: true });
+};
+
+exports.removeFoodData = (req, res) => {
+    let id = req.body.id;
+    Menu.deleteFoodData(id);
+  
+    res.status(201).json({ success: true });
+};
+
+exports.changeFoodData = (req, res) => {
+    let id = req.body.id;
+    let name = req.body.name;
+    let type = req.body.type;
+    let price = req.body.price;
+    let image_url = req.body.image_url;
+    let shop_id = req.body.shop_id;
+    Menu.updateFoodData(id,name,type,price,image_url,shop_id);
+  
+    res.status(201).json({ success: true });
+};
 
 exports.writeReview = (req, res) => {
     let review = req.body.review;
