@@ -24,7 +24,7 @@ app.use('/', appRoute);
 app.use('/api', apiRoute);
 
 // Error Handler
-app.use((err, req, res) => {
+app.use((req, res, err) => {
   let statusCode = (err.status || 500);
   console.log(`${statusCode} : ${err.message}`);
   res.redirect('/');
