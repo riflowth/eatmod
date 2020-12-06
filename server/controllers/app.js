@@ -1,6 +1,5 @@
 const Shop = require('../models/shop')
 const menu = require('../models/menu');
-const database = require('../models/database');
 const apiController = require('../controllers/api');
 
 exports.getIndex = async (req, res) => {

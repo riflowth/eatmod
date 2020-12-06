@@ -1,4 +1,4 @@
-const database = require('../models/database.js');
+let menu = require('../models/menu.js');
 
 exports.getShops = (req, res) => {
     // TODO
@@ -16,14 +16,14 @@ exports.addFoodData = (req, res) => {
     let type = req.body.type;
     let price = req.body.price;
     let shop_id = req.body.shop_id;
-    database.insertFoodData(id,name,type,price,shop_id);
+    menu.insertFoodData(id,name,type,price,shop_id);
     res.status(201).json({ success: true });
 };
 
 exports.removeFoodData = (req, res) => {
     let id = req.body.id;
 
-    database.deleteFoodData(id);
+    menu.deleteFoodData(id);
     res.status(201).json({ success: true });
 };
 
@@ -34,7 +34,7 @@ exports.changeFoodData = (req, res) => {
     let price = req.body.price;
     let image_url = req.body.image_url;
     let shop_id = req.body.shop_id;
-    database.updateFoodData(id,name,type,price,image_url,shop_id);
+    menu.updateFoodData(id,name,type,price,image_url,shop_id);
     res.status(201).json({ success: true });
 };
 
