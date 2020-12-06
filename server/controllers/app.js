@@ -1,3 +1,4 @@
+const knex = require('../database/knex');
 const Shop = require('../models/shop')
 
 exports.getIndex = async (req, res) => {
@@ -14,14 +15,20 @@ exports.getIndex = async (req, res) => {
 exports.getShop = async (req, res) => {
     const { id } = req.params;
     let shop = await Shop.getShop(id);
-    console.log(shop);
+    let reviews = await Shop.getReviews(id);
+    let averageSum = 0;
+    let ratingSum = 0;
+    for(review of reviews){
+        ratingSum = ratingSum + review.rating;
+    }
+    averageSum = ratingSum/reviews.length;
     res.render('shop', {
         name: shop.name,
         type: shop.type,
         location: shop.location,
-        rating: 1,
-        allRatings: 5,
-        reviews: 5,
+        rating: averageSum,
+        allRatings: ratingSum,
+        reviews: reviews.length,
         openTime: shop.open,
         closeTime: shop.close
     });

@@ -11,16 +11,19 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get(
-    '/shop',
+router.post(
+    '/review',
     authMiddleware.isMember,
-    apiController.getShops
-);
+    apiController.writeReview);
+  
+router.put(
+    '/review',
+    authMiddleware.isMember,
+    apiController.updateReview);
 
-router.get(
-    '/shop/:id',
+router.delete(
+    '/review',
     authMiddleware.isMember,
-    apiController.getShopById
-);
+    apiController.deleteReview);
 
 module.exports = router;
