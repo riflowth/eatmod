@@ -1,12 +1,10 @@
-const knex = require('../database/knex');
 const Shop = require('../models/shop')
-const menu = require('../models/menu');
-const apiController = require('../controllers/api');
+const Menu = require('../models/menu');
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
-    let menus = await menu.getAllMenuImages();
-    let randomMenus = await menu.findLastId();
+    let menus = await Menu.getAllMenuImages();
+    let randomMenus = await Menu.findLastId();
 
     res.render(
         'index', {
@@ -18,14 +16,17 @@ exports.getIndex = async (req, res) => {
 
 exports.getShop = async (req, res) => {
     const { id } = req.params;
+
     let shop = await Shop.getShop(id);
     let reviews = await Shop.getReviews(id);
     let averageSum = 0;
     let ratingSum = 0;
-    for(review of reviews){
+
+    for (review of reviews) {
         ratingSum = ratingSum + review.rating;
     }
-    averageSum = ratingSum/reviews.length;
+    averageSum = ratingSum / reviews.length;
+
     res.render('shop', {
         name: shop.name,
         type: shop.type,
