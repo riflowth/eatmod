@@ -9,11 +9,11 @@ exports.getAllMenuImages = async (req, res) => {
 exports.getRandomMenuImages = async (req, res) => {
     let urls = [];
     let lastestId = await Menu.findLastId();
-    
+
     for (let i = 0; i < 6; i++) {
         do {
             urls[i] = Math.floor(Math.random() * lastestId) + 1;
-            ßconsole.log(urls[i]);
+            console.log(urls[i]);
         } while (new Set(urls).size !== urls.length);
     }
 
