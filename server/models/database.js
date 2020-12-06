@@ -1,10 +1,5 @@
 let knex = require('../database/knex.js');
 
-
-
-
-
-
 exports.findLastId = async (req, res) => {
 
     lastId = await knex('foods').max('id')
@@ -17,6 +12,24 @@ exports.findLastId = async (req, res) => {
     
 }
 
+exports.insertFoodData = async (id,name,type,price,shop_id) => {
+    if(id == 0){
+        x = await this.findLastId();
+        id = x + 1;
+    }
+    await knex.insert({
+        id:id,
+        name:name,
+        type:type,
+        price:price,
+        image_url:`link${id}`,
+        shop_id:shop_id
+    }).into('foods');
+
+}
+
+
+/*
 exports.insertFoodId = async (req, res) => {
     x = await this.findLastId()
     await knex('foods').insert({ id: x+1 })
@@ -52,7 +65,4 @@ exports.insertFoodShopId = async (req, res) => {
     x = await this.findLastId()
     await knex('foods').where({ id: x }).update({ shop_id: insertShopId })
 }
-
-//
-// 
-//
+*/

@@ -1,6 +1,7 @@
 const Shop = require('../models/shop')
 const menu = require('../models/menu');
 const database = require('../models/database');
+const apiController = require('../controllers/api');
 
 exports.getIndex = async (req, res) => {
     // TODO
@@ -8,7 +9,11 @@ exports.getIndex = async (req, res) => {
     let menus = await menu.getMenu();
     let randomMenus = await menu.getRandomMenu();
 
+
+    //let add = await apiController.addFoodData();
+    //add
     //test database manipulation function
+    /*
     let addFoodId = await database.insertFoodId();
     let addFoodName = await database.insertFoodName();
     let addFoodType = await database.insertFoodType();
@@ -21,6 +26,7 @@ exports.getIndex = async (req, res) => {
     addFoodPrice
     addFoodUrl
     addFoodShopId
+    */
     //end of test zone
 
     res.render(
