@@ -1,4 +1,4 @@
-require('./config/config')
+require('./config/config');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -22,7 +22,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', appRoute);
 app.use('/api', apiRoute);
-app.use((req, res) => { res.redirect('/'); }); // 404 Error
+
+// Error Handler
+app.use((req, res, err) => {
+  let statusCode = (err.status || 500);
+  console.log(`${statusCode} : ${err.message}`);
+  res.redirect('/');
+});
 
 app.listen(port, () => {
   console.log(color.yellow('███████╗ █████╗ ████████╗███╗   ███╗ ██████╗ ██████╗ '));

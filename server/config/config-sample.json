@@ -2,5 +2,9 @@
     "DB_HOST": "",
     "DB_USER": "",
     "DB_PASSWORD": "",
-    "DB_DATABASE": ""
+    "DB_DATABASE": "",
+
+    "GOOGLE_CONSUMER_KEY": "",
+    "GOOGLE_CONSUMER_SECERT": "",
+    "GOOGLE_OAUTH_CALLBACK": ""
 }
