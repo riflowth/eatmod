@@ -3,6 +3,7 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.string('name');
         table.string('location');
+        table.string('type');
         table.time('open');
         table.time('close');
     });

@@ -11,17 +11,20 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get(
-    '/shop',
+router.post(
+    '/review',
     authMiddleware.isMember,
-    apiController.getShops
-);
+    apiController.writeReview);
+  
+router.put(
+    '/review',
+    authMiddleware.isMember,
+    apiController.updateReview);
 
-router.get(
-    '/shop/:id',
+router.delete(
+    '/review',
     authMiddleware.isMember,
-    apiController.getShopById
-);
+    apiController.deleteReview);
 
 //post method ==> {"id":0, "name":"ข้าวขาหมู", "type":"rice", "price":99999, "shop_id":3} //id=0 คือรันต่อไป
 router.post(

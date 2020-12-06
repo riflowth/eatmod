@@ -1,14 +1,5 @@
-let menu = require('../models/menu.js');
-
-exports.getShops = (req, res) => {
-    // TODO
-
-    console.log("hi");
-};
-
-exports.getShopById = (req, res) => {
-    // TODO
-};
+const Shop = require('../models/shop');
+const Menu = require('../models/menu');
 
 exports.addFoodData = (req, res) => {
     let id = req.body.id;
@@ -16,14 +7,15 @@ exports.addFoodData = (req, res) => {
     let type = req.body.type;
     let price = req.body.price;
     let shop_id = req.body.shop_id;
-    menu.insertFoodData(id,name,type,price,shop_id);
+    Menu.insertFoodData(id,name,type,price,shop_id);
+  
     res.status(201).json({ success: true });
 };
 
 exports.removeFoodData = (req, res) => {
     let id = req.body.id;
-
-    menu.deleteFoodData(id);
+    Menu.deleteFoodData(id);
+  
     res.status(201).json({ success: true });
 };
 
@@ -34,42 +26,35 @@ exports.changeFoodData = (req, res) => {
     let price = req.body.price;
     let image_url = req.body.image_url;
     let shop_id = req.body.shop_id;
-    menu.updateFoodData(id,name,type,price,image_url,shop_id);
+    Menu.updateFoodData(id,name,type,price,image_url,shop_id);
+  
     res.status(201).json({ success: true });
 };
 
-/*
-//แยกส่วน (แบบรวมง่ายกว่า ใช้แบบรวม)
-
-//เพิ่มrecord ใหม่ (จอง id ใหม่)
-exports.addNewRecord = (req, res) => {
-    database.insertFoodId()
-    database.insertFoodUrl()
+exports.writeReview = (req, res) => {
+    let review = req.body.review;
+    let userId = 1;
+    let rating = req.body.rating;
+    let shopId = req.body.shopId;
+    Shop.writeReview(rating,userId,review,shopId);
+    
     res.status(201).json({ success: true });
 };
 
-exports.addFoodName = (req, res) => {
-    let name = req.body.name;
-    database.insertFoodName(name)
-    res.status(201).json({ success: true });
-};
+exports.updateReview = (req, res) => {
+    let review = req.body.review;
+    let userId = 1;
+    let rating = req.body.rating;
+    let shopId = req.body.shopId;
+    Shop.updateReview(rating,userId,review,shopId);
 
-exports.addFoodType = (req, res) => {
-    let type = req.body.type;
-    database.insertFoodName(type)
-    res.status(201).json({ success: true });
-};
+    res.status(200).json({success: true });
+}
 
-exports.addFoodPrice = (req, res) => {
-    let price = req.body.price;
-    database.insertFoodName(price)
-    res.status(201).json({ success: true });
-};
-
-exports.addFoodShopId = (req, res) => {
-    let shop_id = req.body.shop_id;
-    database.insertFoodName(shop_id)
-    res.status(201).json({ success: true });
-};
-
-*/
+exports.deleteReview = (req, res) => {
+    let shopId = req.body.shopId;
+    let userId = 1;
+    Shop.deleteReview(userId, shopId);
+    
+    res.status(200).json({success: true });
+}
