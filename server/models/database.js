@@ -1,7 +1,6 @@
 let knex = require('../database/knex.js');
 
 exports.findLastId = async (req, res) => {
-
     lastId = await knex('foods').max('id')
     lastId = JSON.stringify(lastId)
     lastId = lastId.replace(/\D/g, "");
@@ -9,7 +8,6 @@ exports.findLastId = async (req, res) => {
     //nextId = lastId + 1;
     //console.log(nextId);
     return lastId;
-    
 }
 
 exports.insertFoodData = async (id,name,type,price,shop_id) => {
@@ -28,41 +26,55 @@ exports.insertFoodData = async (id,name,type,price,shop_id) => {
 
 }
 
+exports.deleteFoodData = async (id) => {
+    if(id == 0){ id = await this.findLastId() }
+    await knex('foods')
+    .where({ id: id })
+    .del()
+}
+
+exports.updateFoodData = async (id,name,type,price,image_url,shop_id) => {
+    if(id == 0){ id = await this.findLastId() }
+    await knex('foods')
+    .where({ id: id })
+    .update({ 
+        name:name,
+        type:type,
+        price:price,
+        image_url:image_url,
+        shop_id:shop_id })
+}
 
 /*
-exports.insertFoodId = async (req, res) => {
+//แยกส่วน (ใช้แบบรวมดีกว่า)
+exports.insertFoodId = async () => {
     x = await this.findLastId()
     await knex('foods').insert({ id: x+1 })
 }
 
-exports.insertFoodName = async (req, res) => {
-    let insertName = "ข้าวคลุกน้ำปลา";
+exports.insertFoodName = async (name) => {
     x = await this.findLastId()
-    await knex('foods').where({ id:x }).update({ name: insertName })
+    await knex('foods').where({ id:x }).update({ name: name })
 }
 
-exports.insertFoodType = async (req, res) => {
-    let insertType = "food";
+exports.insertFoodType = async (type) => {
     x = await this.findLastId()
-    await knex('foods').where({ id: x }).update({ type: insertType })
+    await knex('foods').where({ id: x }).update({ type: type })
 }
 
-exports.insertFoodPrice = async (req, res) => {
-    let insertPrice = 2000000;
+exports.insertFoodPrice = async (price) => {
     x = await this.findLastId()
-    await knex('foods').where({ id: x }).update({ price: insertPrice })
+    await knex('foods').where({ id: x }).update({ price: price })
 }
 
-exports.insertFoodUrl = async (req, res) => {
-    
+exports.insertFoodUrl = async () => {
     x = await this.findLastId()
     let insertUrl = `link${x}`;
     await knex('foods').where({ id: x }).update({ image_url: insertUrl })
 }
 
-exports.insertFoodShopId = async (req, res) => {
-    let insertShopId = 7;
+exports.insertFoodShopId = async (shop_id) => {
     x = await this.findLastId()
-    await knex('foods').where({ id: x }).update({ shop_id: insertShopId })
+    await knex('foods').where({ id: x }).update({ shop_id: shop_id })
 }
 */
