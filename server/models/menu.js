@@ -1,44 +1,25 @@
 let knex = require('../database/knex.js');
+let database = require('../models/database.js');
 
-
-
-
-exports.getMenu = async (req, res) => {
+exports.getAllMenuImages = async (req, res) => {
     let menus = await knex.select('image_url').from('foods');
     return JSON.parse(JSON.stringify(menus));
 };
 
-
-
-//เดี๋ยวเปลี่ยนเลข39เป็นตัวแปร
-//39 คือ จำนวน id ของอาหารทั้งหมด
-exports.getRandomMenu = async (req, res) => {
+exports.getRandomMenuImages = async (req, res) => {
     let arrayUrl = [];
-    
+    let x = await database.findLastId();
     for(i = 0; i < 6; i++)
         do{
-           arrayUrl[i] = Math.floor(Math.random() * 39)+1;
-           //console.log(arrayUrl[i]);
+           arrayUrl[i] = Math.floor(Math.random() * x)+1;
+           console.log(arrayUrl[i]);
         } while(new Set(arrayUrl).size !== arrayUrl.length);
 
     let menus = await knex.select('image_url').whereIn('id', arrayUrl).from('foods');
     return JSON.parse(JSON.stringify(menus));
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
+/*old data
 exports.getMenuSpecific = (x, req, res) => {
    
 knex.select('image_url').from('foods').whereIn('id', x).then((rows) => {
@@ -49,11 +30,6 @@ knex.select('image_url').from('foods').whereIn('id', x).then((rows) => {
     return result;
 
 })};
-
-
-
-
-
 
 exports.getMenuRandom = async (req, res) => {
     let i = Math.floor(Math.random() * 6);

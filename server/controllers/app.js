@@ -6,9 +6,9 @@ const apiController = require('../controllers/api');
 exports.getIndex = async (req, res) => {
     // TODO
 //>>>    let shops = await Shop.getShops();
-    let menus = await menu.getMenu();
-    let randomMenus = await menu.getRandomMenu();
-
+    let menus = await menu.getAllMenuImages();
+    let randomMenus = await menu.getRandomMenuImages();
+    console.log(randomMenus)
 
     //let add = await apiController.addFoodData();
     //add
