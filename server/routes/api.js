@@ -16,5 +16,14 @@ router.post(
     authMiddleware.isMember,
     apiController.writeReview);
   
+router.put(
+    '/review',
+    authMiddleware.isMember,
+    apiController.updateReview);
+
+router.delete(
+    '/review',
+    authMiddleware.isMember,
+    apiController.deleteReview);
 
 module.exports = router;

@@ -15,9 +15,9 @@ exports.getIndex = async (req, res) => {
 exports.getShop = async (req, res) => {
     const { id } = req.params;
     let shop = await Shop.getShop(id);
-    let reviews = await Shop.getReview(id);
-    let averageSum=0;
-    let ratingSum=0;
+    let reviews = await Shop.getReviews(id);
+    let averageSum = 0;
+    let ratingSum = 0;
     for(review of reviews){
         ratingSum = ratingSum + review.rating;
     }
