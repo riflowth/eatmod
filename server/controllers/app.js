@@ -6,7 +6,7 @@ exports.getIndex = async (req, res) => {
     // TODO
 //>>>    let shops = await Shop.getShops();
     let menus = await menu.getAllMenuImages();
-    let randomMenus = await menu.getRandomMenuImages();
+    let randomMenus = await menu.findLastId();
     console.log(randomMenus)
 
     //let add = await apiController.addFoodData();

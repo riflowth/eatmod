@@ -20,20 +20,12 @@ exports.getRandomMenuImages = async (req, res) => {
 }
 
 exports.findLastId = async (req, res) => {
-    lastId = await knex('foods').max('id')
-    lastId = JSON.stringify(lastId)
-    lastId = lastId.replace(/\D/g, "");
-    lastId = parseInt(lastId);
-    //nextId = lastId + 1;
-    //console.log(nextId);
-    return lastId;
+    let lastId = await knex('foods').max('id')
+    lastId = JSON.parse(JSON.stringify(lastId[0]));
+    return Object.values(lastId)[0];
 }
 
 exports.insertFoodData = async (id,name,type,price,shop_id) => {
-    if(id == 0){
-        x = await this.findLastId();
-        id = x + 1;
-    }
     await knex.insert({
         id:id,
         name:name,
