@@ -9,10 +9,11 @@ exports.getAllMenuImages = async (req, res) => {
 exports.getRandomMenuImages = async (req, res) => {
     let urls = [];
     let lastestId = await Menu.findLastId();
+    
     for (let i = 0; i < 6; i++) {
         do {
             urls[i] = Math.floor(Math.random() * lastestId) + 1;
-           console.log(urls[i]);
+            ßconsole.log(urls[i]);
         } while (new Set(urls).size !== urls.length);
     }
 
@@ -26,14 +27,14 @@ exports.findLastId = async (req, res) => {
     return Object.values(lastId)[0];
 }
 
-exports.insertFoodData = async (id,name,type,price,shop_id) => {
+exports.insertFoodData = async (id, name, type, price, shop_id) => {
     await knex.insert({
-        id:id,
-        name:name,
-        type:type,
-        price:price,
-        image_url:`link${id}`, // TODO
-        shop_id:shop_id
+        id: id,
+        name: name,
+        type: type,
+        price: price,
+        image_url: `link${id}`, // TODO
+        shop_id: shop_id
     }).into('foods');
 }
 
@@ -42,15 +43,15 @@ exports.deleteFoodData = async (id) => {
     knex('foods').where({ id: id }).del();
 }
 
-exports.updateFoodData = async (id,name,type,price,image_url,shop_id) => {
+exports.updateFoodData = async (id, name, type, price, image_url, shop_id) => {
     if (id == 0) id = await this.findLastId();
     knex('foods')
         .where({ id: id })
-        .update({ 
+        .update({
             name: name,
             type: type,
             price: price,
             image_url: image_url,
-            shop_id: shop_id 
+            shop_id: shop_id
         });
 }
