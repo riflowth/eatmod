@@ -27,13 +27,12 @@ exports.getIndex = async (req, res) => {
         //randomShops[i].imgUrl = '../assets/images/menus/02.jpg' 
     }
 
-    let menus = await Menu.getAllMenuImages();
     let randomMenus = await Menu.getRandomMenuImages();
 
     res.render(
         'index', {
             recommendMenus: randomMenus,
-            recommendShops: shops
+            recommendShops: randomShops
         }
     );
 };
