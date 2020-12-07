@@ -25,12 +25,12 @@ exports.getIndex = async (req, res) => {
     }
 
     let menus = await Menu.getAllMenuImages();
-    let randomMenus = await Menu.findLastId();
+    let randomMenus = await Menu.getRandomMenuImages();
 
     res.render(
         'index', {
-           recommendMenus: [],
-           recommendShops: randomShops
+           recommendMenus: randomMenus,
+           recommendShops: shops
         }
     );
 };

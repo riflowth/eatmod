@@ -18,7 +18,6 @@ exports.addFoodData = (req, res) => {
     let price = req.body.price;
     let shop_id = req.body.shop_id;
     Menu.insertFoodData(id, name, type, price, shop_id);
-  
     res.status(201).json({ success: true });
 };
 
@@ -34,9 +33,8 @@ exports.changeFoodData = (req, res) => {
     let name = req.body.name;
     let type = req.body.type;
     let price = req.body.price;
-    let image_url = req.body.image_url;
     let shop_id = req.body.shop_id;
-    Menu.updateFoodData(id, name, type, price, image_url, shop_id);
+    Menu.updateFoodData(id, name, type, price, shop_id);
   
     res.status(201).json({ success: true });
 };
@@ -66,5 +64,12 @@ exports.deleteReview = (req, res) => {
     let userId = 1;
     Shop.deleteReview(userId, shopId);
     
+    res.status(200).json({ success: true });
+}
+
+exports.getShopLink = async (req, res) => {
+    let id = req.body.id;
+    Menu.getShopLinkByMenuId(id);
+
     res.status(200).json({ success: true });
 }

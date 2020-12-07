@@ -47,4 +47,10 @@ router.patch(
     apiController.changeFoodData
 );
 
+router.post(
+    '/href',
+    authMiddleware.isMember,
+    apiController.getShopLink
+);
+
 module.exports = router;
