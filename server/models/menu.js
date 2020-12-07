@@ -1,4 +1,3 @@
-const { where } = require('../database/knex.js');
 const knex = require('../database/knex.js');
 const Menu = require('../models/menu.js');
 
@@ -14,12 +13,17 @@ exports.getRandomMenuImages = async (req, res) => {
     for (let i = 0; i < 6; i++) {
         do {
             urls[i] = Math.floor(Math.random() * lastestId) + 1;
-            console.log(urls[i]);
         } while (new Set(urls).size !== urls.length);
     }
+    
+    let menus = JSON.parse(JSON.stringify(await knex.select('image_url').whereIn('id', urls).from('foods')));
 
-    let menus = await knex.select('image_url').whereIn('id', urls).from('foods');
-    return JSON.parse(JSON.stringify(menus));
+    menus.forEach((menu, index) => {
+        menu.image_url = `http://localhost:8080/assets/images/menus/${menu.image_url}.jpg`;
+        menus[index] = menu;
+    });
+
+    return menus;
 }
 
 exports.findLastId = async (req, res) => {
@@ -28,40 +32,45 @@ exports.findLastId = async (req, res) => {
     return Object.values(lastId)[0];
 }
 
+exports.findShopIdByMenuId = async (id) => {
+    let shop_id = await knex('foods').select('shop_id').where({ id: id })
+    shop_id = Object.values(JSON.parse(JSON.stringify(shop_id[0])))[0];
+    return shop_id;
+}
+
 exports.insertFoodData = async (id, name, type, price, shop_id) => {
-    if (id == undefined) id = await this.findLastId() + 1; //TODO
+    if (typeof(id) == 'undefined') id = await this.findLastId() + 1; //TODO
     await knex.insert({
         id: id,
         name: name,
         type: type,
         price: price,
-        image_url: `../../public/images/menus/shopid${shop_id}_menu${id}`,
+        image_url: `${shop_id}_${id}`,
         shop_id: shop_id
     }).into('foods');
 }
 
 exports.deleteFoodData = async (id) => {
-    if (id == 0 || id == undefined) id = await this.findLastId();
-    await knex('foods').where({ id: id }).del(); //มันต้องมีawaitอะ ไม่งั้นก็ไม่ลบ ไม่รู้ทำไม
+    if (id == 0 || typeof(id) == 'undefined') id = await this.findLastId();
+    knex('foods').where({ id: id }).del().then();
 }
 
 exports.updateFoodData = async (id, name, type, price , shop_id) => {
-    if (id == 0 || id == undefined) id = await this.findLastId();
-    await knex('foods') //นี่ก็ด้วยยย
+    if (id == 0 || typeof(id) == 'undefined') id = await this.findLastId();
+    if (typeof(shop_id) == 'undefined') shop_id = await this.findShopIdById(id);
+    knex('foods')
         .where({ id: id })
         .update({
             name: name,
             type: type,
             price: price,
-            image_url: `../../public/images/menus/shopid${shop_id}_menu${id}`,
+            image_url: `${shop_id}_${id}`,
             shop_id: shop_id
-        });
+        }).then()
 }
-//TODO
-exports.getShopLinkByImage = async (id) => {
-    let shop_id = await knex('foods').select('shop_id').where({ id: id })
-    shop_id = Object.values(JSON.parse(JSON.stringify(shop_id[0])))[0];
-    let shop_link = `http://localhost:8080/shop/${shop_id}`
-    console.log(shop_link);
+
+exports.getShopLinkByMenuId = async (id) => {
+    let shop_id = await this.findShopIdByMenuId(id);
+    let shop_link = `https://localhost:8080/shop/${shop_id}`
     return shop_link;
 }

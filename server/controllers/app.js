@@ -4,11 +4,11 @@ const Menu = require('../models/menu');
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
     let menus = await Menu.getAllMenuImages();
-    let randomMenus = await Menu.findLastId();
+    let randomMenus = await Menu.getRandomMenuImages();
 
     res.render(
         'index', {
-           recommendMenus: [],
+           recommendMenus: randomMenus,
            recommendShops: shops
         }
     );

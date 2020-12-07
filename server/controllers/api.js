@@ -8,7 +8,6 @@ exports.addFoodData = (req, res) => {
     let price = req.body.price;
     let shop_id = req.body.shop_id;
     Menu.insertFoodData(id, name, type, price, shop_id);
-    console.log("hi");
     res.status(201).json({ success: true });
 };
 
@@ -60,7 +59,7 @@ exports.deleteReview = (req, res) => {
 
 exports.getShopLink = async (req, res) => {
     let id = req.body.id;
-    Menu.getShopLinkByImage(id);
+    Menu.getShopLinkByMenuId(id);
 
     res.status(200).json({ success: true });
 }
