@@ -1,8 +1,29 @@
+const knex = require('../database/knex');
 const Shop = require('../models/shop')
 const Menu = require('../models/menu');
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
+    let randomShops = [];
+    
+    for (let i = 0; i < 2; i++) {
+        let rating = 0;
+        do {
+            randomShops[i] = shops[Math.floor(Math.random() * shops.length)];
+        } while (new Set(randomShops).size != randomShops.length);
+        let reviews = await Shop.getReviews(randomShops[i].id);
+        if (reviews.length != 0) {
+            for (review of reviews) {
+              rating = rating + review.rating;
+            }
+            rating = rating / reviews.length;
+        }
+        randomShops[i].rating = rating;
+        randomShops[i].review = reviews.length;
+        randomShops[i].reviewUrl = `/shop/${randomShops[i].id}`;
+        //randomShops[i].imgUrl = '../assets/images/menus/02.jpg' 
+    }
+
     let menus = await Menu.getAllMenuImages();
     let randomMenus = await Menu.getRandomMenuImages();
 
@@ -16,27 +37,33 @@ exports.getIndex = async (req, res) => {
 
 exports.getShop = async (req, res) => {
     const { id } = req.params;
-
-    let shop = await Shop.getShop(id);
-    let reviews = await Shop.getReviews(id);
-    let averageSum = 0;
-    let ratingSum = 0;
-
-    for (review of reviews) {
-        ratingSum = ratingSum + review.rating;
+  
+    try{
+        let shop = await Shop.getShop(id);
+        let reviews = await Shop.getReviews(id);
+        let averageSum = 0;
+        let ratingSum = 0;
+      
+        if (reviews.length != 0) {
+            for (review of reviews) {
+              ratingSum = ratingSum + review.rating;
+            }
+            averageSum = ratingSum/reviews.length;
+        }
+    
+        res.render('shop', {
+            name: shop.name,
+            type: shop.type,
+            location: shop.location,
+            rating: averageSum,
+            allRatings: ratingSum,
+            reviews: reviews.length,
+            openTime: shop.open,
+            closeTime: shop.close
+        });
+    } catch {
+        res.redirect('/shop');
     }
-    averageSum = ratingSum / reviews.length;
-
-    res.render('shop', {
-        name: shop.name,
-        type: shop.type,
-        location: shop.location,
-        rating: averageSum,
-        allRatings: ratingSum,
-        reviews: reviews.length,
-        openTime: shop.open,
-        closeTime: shop.close
-    });
 };
 
 exports.getShops = (req, res) => {
