@@ -30,6 +30,22 @@ const foods = [
         price: 10,
         image_url: 'link04',
         shop_id: 1
+    },
+    {   
+        id: 5,
+        name: 'ข้าวผัด',
+        type: 'ข้าว',
+        price: 30,
+        image_url: 'link05',
+        shop_id: 3
+    },
+    {   
+        id: 6,
+        name: 'ข้าวแกงกะหรี่',
+        type: 'ข้าว',
+        price: 35,
+        image_url: 'link06',
+        shop_id: 2
     }
 ];
 
