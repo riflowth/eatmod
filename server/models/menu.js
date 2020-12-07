@@ -1,3 +1,4 @@
+const { where } = require('../database/knex.js');
 const knex = require('../database/knex.js');
 const Menu = require('../models/menu.js');
 
@@ -28,30 +29,39 @@ exports.findLastId = async (req, res) => {
 }
 
 exports.insertFoodData = async (id, name, type, price, shop_id) => {
+    if (id == undefined) id = await this.findLastId() + 1; //TODO
     await knex.insert({
         id: id,
         name: name,
         type: type,
         price: price,
-        image_url: `link${id}`, // TODO
+        image_url: `../../public/images/menus/shopid${shop_id}_menu${id}`,
         shop_id: shop_id
     }).into('foods');
 }
 
 exports.deleteFoodData = async (id) => {
-    if (id == 0) id = await this.findLastId();
-    knex('foods').where({ id: id }).del();
+    if (id == 0 || id == undefined) id = await this.findLastId();
+    await knex('foods').where({ id: id }).del(); //มันต้องมีawaitอะ ไม่งั้นก็ไม่ลบ ไม่รู้ทำไม
 }
 
-exports.updateFoodData = async (id, name, type, price, image_url, shop_id) => {
-    if (id == 0) id = await this.findLastId();
-    knex('foods')
+exports.updateFoodData = async (id, name, type, price , shop_id) => {
+    if (id == 0 || id == undefined) id = await this.findLastId();
+    await knex('foods') //นี่ก็ด้วยยย
         .where({ id: id })
         .update({
             name: name,
             type: type,
             price: price,
-            image_url: image_url,
+            image_url: `../../public/images/menus/shopid${shop_id}_menu${id}`,
             shop_id: shop_id
         });
+}
+//TODO
+exports.getShopLinkByImage = async (id) => {
+    let shop_id = await knex('foods').select('shop_id').where({ id: id })
+    shop_id = Object.values(JSON.parse(JSON.stringify(shop_id[0])))[0];
+    let shop_link = `http://localhost:8080/shop/${shop_id}`
+    console.log(shop_link);
+    return shop_link;
 }
