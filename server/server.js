@@ -27,26 +27,28 @@ app.use('/', appRoute);
 app.use('/api', apiRoute);
 
 // Error Handler
-app.use((req, res, err) => {
-  let statusCode = (err.status || 500);
-  console.log(`${statusCode} : ${err.message}`);
-  res.redirect('/');
+app.use((req, res) => {
+    if (req.url.startsWith('/assets/images')) {
+        res.redirect('https://lh3.googleusercontent.com/MgJS2D26eWVE9wOQ14vYQhVvot7NsgTsL9Fm-C8NwGC8Tn277Py-piniyyI5JkfyWLY4=s143');
+    } else {
+        res.redirect('/');
+    }
 });
 
 app.listen(port, () => {
-  console.log(color.yellow('███████╗ █████╗ ████████╗███╗   ███╗ ██████╗ ██████╗ '));
-  console.log(color.yellow('██╔════╝██╔══██╗╚══██╔══╝████╗ ████║██╔═══██╗██╔══██╗'));
-  console.log(color.yellow('█████╗  ███████║   ██║   ██╔████╔██║██║   ██║██║  ██║'));
-  console.log(color.yellow('██╔══╝  ██╔══██║   ██║   ██║╚██╔╝██║██║   ██║██║  ██║'));
-  console.log(color.yellow('███████╗██║  ██║   ██║   ██║ ╚═╝ ██║╚██████╔╝██████╔╝'));
-  console.log(color.yellow('╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ '));
-  log.success(log.prefix.WEB, `Server is up on http://localhost:${port}`);
+    console.log(color.yellow('███████╗ █████╗ ████████╗███╗   ███╗ ██████╗ ██████╗ '));
+    console.log(color.yellow('██╔════╝██╔══██╗╚══██╔══╝████╗ ████║██╔═══██╗██╔══██╗'));
+    console.log(color.yellow('█████╗  ███████║   ██║   ██╔████╔██║██║   ██║██║  ██║'));
+    console.log(color.yellow('██╔══╝  ██╔══██║   ██║   ██║╚██╔╝██║██║   ██║██║  ██║'));
+    console.log(color.yellow('███████╗██║  ██║   ██║   ██║ ╚═╝ ██║╚██████╔╝██████╔╝'));
+    console.log(color.yellow('╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ '));
+    log.success(log.prefix.WEB, `Server is up on http://localhost:${port}`);
 
-  knex.raw('select 0').catch(err => {
-    log.error(log.prefix.DATABASE, `${err.sqlMessage}`);
-    log.warn(log.prefix.WEB, `Server has closed...!`);
-    process.exit();
-  }).finally(() => {
-    log.success(log.prefix.DATABASE, `The database connection established`);
-  });
+    knex.raw('select 0').catch(err => {
+        log.error(log.prefix.DATABASE, `${err.sqlMessage}`);
+        log.warn(log.prefix.WEB, `Server has closed...!`);
+        process.exit();
+    }).finally(() => {
+        log.success(log.prefix.DATABASE, `The database connection established`);
+    });
 });

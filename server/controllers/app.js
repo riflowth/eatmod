@@ -5,18 +5,22 @@ const Menu = require('../models/menu');
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
     let randomShops = [];
-  
-    for (let i = 1; i <= 4; i++) {
+
+    for (let i = 0; i < 4; i++) {
         do {
             randomShops[i] = shops[Math.floor(Math.random() * shops.length)];
         } while (new Set(randomShops).size != randomShops.length);
+
         let reviews = await Shop.getReviews(randomShops[i].id);
+        let rating = 0;
+
         if (reviews.length != 0) {
             for (review of reviews) {
-              rating = rating + review.rating;
+                rating = rating + review.rating;
             }
             rating = rating / reviews.length;
         }
+        
         randomShops[i].rating = rating;
         randomShops[i].review = reviews.length;
         randomShops[i].reviewUrl = `/shop/${randomShops[i].id}`;
@@ -28,28 +32,28 @@ exports.getIndex = async (req, res) => {
 
     res.render(
         'index', {
-           recommendMenus: randomMenus,
-           recommendShops: shops
+            recommendMenus: randomMenus,
+            recommendShops: shops
         }
     );
 };
 
 exports.getShop = async (req, res) => {
     const { id } = req.params;
-  
-    try{
+
+    try {
         let shop = await Shop.getShop(id);
         let reviews = await Shop.getReviews(id);
         let averageSum = 0;
         let ratingSum = 0;
-      
+
         if (reviews.length != 0) {
             for (review of reviews) {
-              ratingSum = ratingSum + review.rating;
+                ratingSum = ratingSum + review.rating;
             }
-            averageSum = ratingSum /reviews.length;
+            averageSum = ratingSum / reviews.length;
         }
-    
+
         res.render('shop', {
             name: shop.name,
             type: shop.type,
