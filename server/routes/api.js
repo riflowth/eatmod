@@ -14,16 +14,37 @@ router.get('/', (req, res) => {
 router.post(
     '/review',
     authMiddleware.isMember,
-    apiController.writeReview);
+    apiController.writeReview
+);
   
 router.put(
     '/review',
     authMiddleware.isMember,
-    apiController.updateReview);
+    apiController.updateReview
+);
 
 router.delete(
     '/review',
     authMiddleware.isMember,
-    apiController.deleteReview);
+    apiController.deleteReview
+);
+
+router.post(
+    '/menu',
+    authMiddleware.isMember,
+    apiController.addFoodData
+);
+
+router.delete(
+    '/menu',
+    authMiddleware.isMember,
+    apiController.removeFoodData
+);
+
+router.patch(
+    '/menu',
+    authMiddleware.isMember,
+    apiController.changeFoodData
+);
 
 module.exports = router;

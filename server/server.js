@@ -1,9 +1,12 @@
-require('./config/config')
+require('./config/config');
+
+const path = require('path');
+const color = require('chalk');
+const log = require('./utils/log');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
-const color = require('chalk');
+const knex = require('./database/knex');
 
 const app = express();
 const port = (process.env.PORT || 8080);
@@ -36,6 +39,14 @@ app.listen(port, () => {
   console.log(color.yellow('█████╗  ███████║   ██║   ██╔████╔██║██║   ██║██║  ██║'));
   console.log(color.yellow('██╔══╝  ██╔══██║   ██║   ██║╚██╔╝██║██║   ██║██║  ██║'));
   console.log(color.yellow('███████╗██║  ██║   ██║   ██║ ╚═╝ ██║╚██████╔╝██████╔╝'));
-  console.log(color.yellow('╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ '));                 
-  console.log('> EatMod server is up on ' + color.green(`http://localhost:${port}`));
+  console.log(color.yellow('╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ '));
+  log.success(log.prefix.WEB, `Server is up on http://localhost:${port}`);
+
+  knex.raw('select 0').catch(err => {
+    log.error(log.prefix.DATABASE, `${err.sqlMessage}`);
+    log.warn(log.prefix.WEB, `Server has closed...!`);
+    process.exit();
+  }).finally(() => {
+    log.success(log.prefix.DATABASE, `The database connection established`);
+  });
 });

@@ -1,15 +1,19 @@
 const knex = require('../database/knex');
 const Shop = require('../models/shop')
+const Menu = require('../models/menu');
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
     let randomShops = [];
-    for(let i = 0; i < 2; i++){
+  
+    for (let i = 0; i < 2; i++) {
         do {
             randomShops[i] = shops[Math.floor(Math.random() * shops.length)];
-        } while(new Set(randomShops).size != randomShops.length);
+        } while (new Set(randomShops).size != randomShops.length);
     }
-    
+    let menus = await Menu.getAllMenuImages();
+    let randomMenus = await Menu.findLastId();
+
     res.render(
         'index', {
            recommendMenus: [],
@@ -20,14 +24,16 @@ exports.getIndex = async (req, res) => {
 
 exports.getShop = async (req, res) => {
     const { id } = req.params;
+  
     try{
         let shop = await Shop.getShop(id);
         let reviews = await Shop.getReviews(id);
         let averageSum = 0;
         let ratingSum = 0;
-        if(reviews.length != 0){
-            for(review of reviews){
-               ratingSum = ratingSum + review.rating;
+      
+        if (reviews.length != 0) {
+            for (review of reviews) {
+              ratingSum = ratingSum + review.rating;
             }
             averageSum = ratingSum/reviews.length;
         }
@@ -42,11 +48,9 @@ exports.getShop = async (req, res) => {
             openTime: shop.open,
             closeTime: shop.close
         });
-    } catch{
+    } catch {
         res.redirect('/shop');
     }
-    
-    
 };
 
 exports.getShops = (req, res) => {

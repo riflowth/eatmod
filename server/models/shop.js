@@ -6,12 +6,12 @@ exports.getShops = async () => {
 }
 
 exports.getShop = async (id) => {
-    let shop = await knex.select().from('shops').where({id: id});
+    let shop = await knex.select().from('shops').where({ id: id });
     return JSON.parse(JSON.stringify(shop[0]));
 }
 
 exports.getReviews = async (shopId) => {
-    let reviews = await knex.select('rating','review').from('reviews').where({shop_id: shopId});
+    let reviews = await knex.select('rating', 'review').from('reviews').where({ shop_id: shopId });
     return JSON.parse(JSON.stringify(reviews));
 }
 
@@ -25,14 +25,14 @@ exports.writeReview = async (rating, userId, review, shopId) => {
     return id;
 }
 
-exports.updateReview = async (rating, userId, review , shopId) => {
+exports.updateReview = async (rating, userId, review, shopId) => {
     let id = await knex('reviews').update({
         rating: rating,
         review: review
-    }).where({user_id: userId, shop_id: shopId});
+    }).where({ user_id: userId, shop_id: shopId });
     return id;
 }
 
-exports.deleteReview = async (userId, shopId ) => {
-    await knex('reviews').del().where({user_id: userId, shop_id: shopId });    
+exports.deleteReview = async (userId, shopId) => {
+    knex('reviews').del().where({ user_id: userId, shop_id: shopId });
 }
