@@ -5,9 +5,8 @@ const Menu = require('../models/menu');
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
     let randomShops = [];
-    
-    for (let i = 0; i < 2; i++) {
-        let rating = 0;
+  
+    for (let i = 1; i <= 4; i++) {
         do {
             randomShops[i] = shops[Math.floor(Math.random() * shops.length)];
         } while (new Set(randomShops).size != randomShops.length);
@@ -48,7 +47,7 @@ exports.getShop = async (req, res) => {
             for (review of reviews) {
               ratingSum = ratingSum + review.rating;
             }
-            averageSum = ratingSum/reviews.length;
+            averageSum = ratingSum /reviews.length;
         }
     
         res.render('shop', {
