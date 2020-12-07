@@ -4,7 +4,6 @@ exports.up = function(knex) {
         table.string('name');
         table.string('type');
         table.integer('price');
-        table.string('image_url');
         table.integer('shop_id');
     });
 };

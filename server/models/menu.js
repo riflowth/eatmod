@@ -1,29 +1,37 @@
 const knex = require('../database/knex.js');
 const Menu = require('../models/menu.js');
 
-exports.getAllMenuImages = async (req, res) => {
-    let menus = await knex.select('image_url').from('foods');
-    return JSON.parse(JSON.stringify(menus));
+exports.findShopIdByMenuId = async (id) => {
+    let shopId = await knex('foods').select('shop_id').where({ id: id })
+    return Object.values(JSON.parse(JSON.stringify(shopId[0])))[0];
+}
+
+exports.getImageUrl = async (id) => {
+    let shop_id = await this.findShopIdByMenuId(id)
+    image_url = `${shop_id}_${id}`
+    return image_url
 };
 
 exports.getRandomMenuImages = async (req, res) => {
-    let urls = [];
-    let lastestId = await Menu.findLastId();
-
+    let randomMenuId = [];
+    let maxMenus = await Menu.findLastId();
     for (let i = 0; i < 6; i++) {
         do {
-            urls[i] = Math.floor(Math.random() * lastestId) + 1;
-        } while (new Set(urls).size !== urls.length);
+            randomMenuId[i] = Math.floor(Math.random() * maxMenus) + 1;
+        } while (new Set(randomMenuId).size !== randomMenuId.length);
     }
-    
-    let menus = JSON.parse(JSON.stringify(await knex.select('image_url').whereIn('id', urls).from('foods')));
 
-    menus.forEach((menu, index) => {
-        menu.image_url = `http://localhost:8080/assets/images/menus/${menu.image_url}.jpg`;
-        menus[index] = menu;
-    });
+    let randomMenus = [];
+    for (let i = 0; i < 6; i++) {
+        let menuId = randomMenuId[i];
+        let shopId = await this.findShopIdByMenuId(menuId);
+        randomMenus[i] = {
+            shop_url: './shop/' + shopId,
+            image_url: `http://localhost:8080/assets/images/menus/${shopId}_${menuId}.jpg` 
+        };
+    }
 
-    return menus;
+    return randomMenus;
 }
 
 exports.findLastId = async (req, res) => {
@@ -57,7 +65,7 @@ exports.deleteFoodData = async (id) => {
 
 exports.updateFoodData = async (id, name, type, price , shop_id) => {
     if (id == 0 || typeof(id) == 'undefined') id = await this.findLastId();
-    if (typeof(shop_id) == 'undefined') shop_id = await this.findShopIdById(id);
+    if (typeof(shop_id) == 'undefined') shop_id = await this.findShopIdByMenuId(id);
     knex('foods')
         .where({ id: id })
         .update({

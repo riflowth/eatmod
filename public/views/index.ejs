@@ -30,7 +30,9 @@
                                 if (typeof(recommendMenus) != 'undefined') {
                                     recommendMenus.forEach((menu) => { 
                             %>
-                                <img class="mr-2 mb-2" src="<%= menu.image_url %>" style="object-fit: cover" width="180px" height="180px">
+                                <a href="<%= menu.shop_url %>">
+                                    <img class="mr-2 mb-2" src="<%= menu.image_url %>" style="object-fit: cover" width="180px" height="180px">
+                                </a>
                             <% }); } %>
                         </div>
                     </div>
