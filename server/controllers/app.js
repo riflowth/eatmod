@@ -24,7 +24,7 @@ exports.getIndex = async (req, res) => {
         randomShops[i].rating = rating;
         randomShops[i].review = reviews.length;
         randomShops[i].reviewUrl = `/shop/${randomShops[i].id}`;
-        //randomShops[i].imgUrl = '../assets/images/menus/02.jpg' 
+        randomShops[i].imgUrl = `../assets/images/shops/${randomShops[i].id}.jpg` 
     }
 
     let randomMenus = await Menu.getRandomMenuImages();
