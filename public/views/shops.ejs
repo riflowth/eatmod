@@ -21,17 +21,18 @@
             <%
                 if (typeof(shops) != 'undefined') {
                     shops.forEach((shop) => {
-                        // TODO: Implementing elements
             %>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card box-shadow-1 mb-md-0 mb-4">
-                        <img class="card-img-top" src="" style="object-fit: cover" width="300" height="200" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title mb-0"></h5>
-                            <p class="card-text text-muted"></p>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card box-shadow-1 h-100">
+                        <img class="card-img-top" src="<%= shop.imgUrl %>" style="object-fit: cover" width="300" height="200" alt="">
+                        <div class="card-body h-100">
+                            <h5 class="card-title mb-1"><%= shop.name %></h5>
+                            <p class="card-text text-muted"><%= shop.type %></p>
+                        </div>
+                        <div class="card-footer bg-white">
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="" class="btn btn-outline-primary btn-sm ">อ่านรีวิว</a>
-                                <small class="text-muted"><i class="far fa-star"></i>  <i class="far fa-comments"></i> รีวิว</small>
+                                <a href="<%= shop.reviewUrl %>" class="btn btn-outline-primary btn-sm ">อ่านรีวิว</a>
+                                <small class="text-muted"><i class="far fa-star"></i> <%= shop.rating %> <i class="far fa-comments"></i> <%= shop.review %> รีวิว</small>
                             </div>
                         </div>
                     </div>
