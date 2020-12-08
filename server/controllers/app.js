@@ -12,7 +12,7 @@ exports.getIndex = async (req, res) => {
         } while (new Set(randomShops).size != randomShops.length);
     }
 
-    randomShops = await fillShopsInformation(randomShops);
+    await fillShopsInformation(randomShops);
     let randomMenus = await Menu.getRandomMenuImages();
 
     res.render(
@@ -35,8 +35,8 @@ exports.getShop = async (req, res) => {
         if(reviews.length != 0){
             ratingSum = findSumRating(reviews);
             averageSum = ratingSum / reviews.length;
-        }        
-
+        }
+        
         res.render('shop', {
             user: req.isAuthenticated() ? await User.getById(req.user) : '',
             name: shop.name,
@@ -56,7 +56,7 @@ exports.getShop = async (req, res) => {
 exports.getShops = async (req, res) => {
     let shops = await Shop.getShops();
     
-    shops = await fillShopsInformation(shops);
+    await fillShopsInformation(shops);
 
     res.render('shops', {
         user: req.isAuthenticated() ? await User.getById(req.user) : '',
@@ -96,5 +96,4 @@ async function fillShopsInformation(shops){
         shops[i].reviewUrl = `/shop/${shops[i].id}`;
         shops[i].imgUrl = `../assets/images/shops/${shops[i].id}.jpg` 
     }
-    return shops;
 }
