@@ -83,3 +83,13 @@ html, body {
     transform: translate(-50%, -50%);
     text-align: center;
 }
+
+.hover-1:hover {
+    border-color: #3a3d41!important;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.hover-1 {
+    -webkit-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
+}

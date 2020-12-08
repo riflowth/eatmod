@@ -1,6 +1,7 @@
 const knex = require('../database/knex');
 const Shop = require('../models/shop')
 const Menu = require('../models/menu');
+const User = require('../models/user');
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
@@ -31,6 +32,7 @@ exports.getIndex = async (req, res) => {
 
     res.render(
         'index', {
+            user: req.isAuthenticated() ? await User.getById(req.user) : '',
             recommendMenus: randomMenus,
             recommendShops: randomShops
         }
@@ -54,6 +56,7 @@ exports.getShop = async (req, res) => {
         }
 
         res.render('shop', {
+            user: req.isAuthenticated() ? await User.getById(req.user) : '',
             name: shop.name,
             type: shop.type,
             location: shop.location,
@@ -68,10 +71,14 @@ exports.getShop = async (req, res) => {
     }
 };
 
-exports.getShops = (req, res) => {
-    res.render('shops', {});
+exports.getShops = async (req, res) => {
+    res.render('shops', {
+        user: req.isAuthenticated() ? await User.getById(req.user) : ''
+    });
 };
 
-exports.getLogin = (req, res) => {
-    res.render('login', {});
+exports.getLogin = async (req, res) => {
+    res.render('login', {
+        user: req.isAuthenticated() ? await User.getById(req.user) : ''
+    });
 };
