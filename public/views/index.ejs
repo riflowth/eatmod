@@ -21,18 +21,24 @@
 
     <section id="recommended-menus">
         <div style="background-color: rgba(0, 0, 0, 0.05)">
-            <div class="container py-5">
+            <div class="container pt-5 mb-2">
                 <div class="row">
                     <div class="col-lg-12">
                         <h5 class=""><span class="text-primary"><i class="fas fa-star"></i></span> แนะนำเมนูเด็ด</h5>
-                        <div class="row d-flex justify-content-center">
+
+                        <div class="row d-flex justify-content-center pb-3">
                             <% 
                                 if (typeof(recommendMenus) != 'undefined') {
                                     recommendMenus.forEach((menu) => { 
                             %>
-                                <a href="<%= menu.shop_url %>">
-                                    <img class="mr-2 mb-2" src="<%= menu.image_url %>" style="object-fit: cover" width="180px" height="180px">
-                                </a>
+                                <div class="mx-2 mb-4">
+                                    <a href="<%= menu.shop_url %>">
+                                        <div class="position-relative">
+                                            <img src="<%= menu.image_url %>" style="object-fit: cover;" width="160rem" height="160rem">
+                                            <div class="overlay"><p class="overlay-text">อ่านรีวิว</p></div>
+                                        </div>
+                                    </a>
+                                </div>
                             <% }); } %>
                         </div>
                     </div>
@@ -53,7 +59,7 @@
                         recommendShops.forEach((shop) => { 
                 %>
                     <div class="col-lg-3 col-md-6">
-                        <div class="card box-shadow-1 mb-sm-3">
+                        <div class="card box-shadow-1 mb-4 mb-lg-0">
                             <img class="card-img-top" src="<%= shop.imgUrl %>" style="object-fit: cover" width="300" height="200" alt="">
                             <div class="card-body">
                                 <h5 class="card-title"><%= shop.name %></h5>
