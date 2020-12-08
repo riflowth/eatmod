@@ -49,12 +49,9 @@
                             <div class="card-body">
                                 <h5 class="card-title">เมนูที่แนะนำ</h5>
                                 <div class="row d-flex justify-content-center">
-                                    <img class="mr-2 mb-2" src="https://via.placeholder.com/150" style="object-fit: cover" width="100px" height="100px">
-                                    <img class="mr-2 mb-2" src="https://via.placeholder.com/150" style="object-fit: cover" width="100px" height="100px">
-                                    <img class="mr-2 mb-2" src="https://via.placeholder.com/150" style="object-fit: cover" width="100px" height="100px">
-                                    <img class="mr-2 mb-2" src="https://via.placeholder.com/150" style="object-fit: cover" width="100px" height="100px">
-                                    <img class="mr-2 mb-2" src="https://via.placeholder.com/150" style="object-fit: cover" width="100px" height="100px">
-                                    <img class="mr-2 mb-2" src="https://via.placeholder.com/150" style="object-fit: cover" width="100px" height="100px">
+                                    <% menuImages.forEach((image) => { %>
+                                        <img class="mr-2 mb-2" src="<%= image %>" style="object-fit: cover" width="100px" height="100px">
+                                    <% }); %>
                                 </div>
                             </div>
                         </div>
