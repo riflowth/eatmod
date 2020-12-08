@@ -5,14 +5,18 @@ const color = require('chalk');
 const log = require('./utils/log');
 
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
+const passport = require('./auth/passport');
 const knex = require('./database/knex');
+const KnexSessionStore = require('connect-session-knex')(session);
 
 const app = express();
 const port = (process.env.PORT || 8080);
 
 const appRoute = require('./routes/app');
 const apiRoute = require('./routes/api');
+const authRoute = require('./routes/auth');
 
 const publicPath = path.join(__dirname + '/../public');
 const viewPath = path.join(publicPath + '/views');
@@ -22,9 +26,23 @@ app.set('views', viewPath);
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+    session({
+        secret: 'eatmod-cpe34',
+        saveUninitialized: false,
+        resave: true,
+        store: new KnexSessionStore({
+            knex: knex,
+            tablename: 'sessions'
+        })
+    })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', appRoute);
 app.use('/api', apiRoute);
+app.use('/auth', authRoute);
 
 // Error Handler
 app.use((req, res) => {
