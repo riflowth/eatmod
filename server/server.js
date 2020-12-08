@@ -45,7 +45,7 @@ app.listen(port, () => {
     log.success(log.prefix.WEB, `Server is up on http://localhost:${port}`);
 
     knex.raw('select 0').catch(err => {
-        log.error(log.prefix.DATABASE, `${err.sqlMessage}`);
+        log.error(log.prefix.DATABASE, `${err.sqlMessage || err.code}`);
         log.warn(log.prefix.WEB, `Server has closed...!`);
         process.exit();
     }).finally(() => {
