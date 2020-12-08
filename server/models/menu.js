@@ -8,7 +8,7 @@ exports.findLastId = async (req, res) => {
 }
 
 exports.findShopIdByMenuId = async (id) => {
-    let shopId = await knex('foods').select('shop_id').where({ id: id })
+    let shopId = await knex('foods').select('shop_id').where({ id: id });
     return Object.values(JSON.parse(JSON.stringify(shopId[0])))[0];
 }
 
@@ -24,6 +24,15 @@ exports.findShopLinkByMenuId = async (id) => {
     return shop_link;
 }
 
+exports.findMenuIdByShopId = async (shop_id) => {
+    let menuId = [];
+    menuId = await knex('foods').select('id').where({ shop_id: shop_id });
+    for(i = 0, length = menuId.length; i < length ; i++) {
+        menuId[i] = Object.values(JSON.parse(JSON.stringify(menuId[i])))[0];
+    }
+    return menuId;
+}
+
 exports.findMenuImagesById = async (id) => {
     let image = {
         shop_url: await this.findShopLinkByMenuId(id),
@@ -34,8 +43,20 @@ exports.findMenuImagesById = async (id) => {
 
 exports.getMenuImagesById = async (id) => {
     let image = [];
-    image[0] = this.findImageUrlByMenuId(id);
+    image[0] = await this.findImageUrlByMenuId(id);
     return image;
+}
+
+exports.getRecomMenuImagesByShopId = async (shop_id) => {
+    let shopId = [];
+    let recomMenuImages = [];
+    shopId = await this.findMenuIdByShopId(shop_id);
+
+    for (let i = 0; i < shopId.length; i++) {
+        recomMenuImages[i] = await this.findMenuImagesById(shopId[i]);
+    }
+    return recomMenuImages;
+
 }
 
 exports.getRandomMenuImages = async (req, res) => {
