@@ -6,7 +6,7 @@ const User = require('../models/user');
 passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: 'http://localhost:8080/auth/google/callback'
+        callbackURL: process.env.GOOGLE_AUTH_CALLBACK
     },
     function(accessToken, refreshToken, profile, done) {
         User.getOrCreate(profile, (err, user) => {
@@ -18,7 +18,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
-        callbackURL: 'http://localhost:8080/auth/facebook/callback'
+        callbackURL: process.env.FACEBOOK_AUTH_CALLBACK
     },
     function(accessToken, refreshToken, profile, done) {
         User.getOrCreate(profile, (err, user) => {
