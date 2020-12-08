@@ -13,44 +13,38 @@ router.get('/', (req, res) => {
 
 router.post(
     '/review',
-    authMiddleware.isMember,
+    authMiddleware.isAuthenticated,
     apiController.writeReview
 );
   
 router.put(
     '/review',
-    authMiddleware.isMember,
+    authMiddleware.isAuthenticated,
     apiController.updateReview
 );
 
 router.delete(
     '/review',
-    authMiddleware.isMember,
+    authMiddleware.isAuthenticated,
     apiController.deleteReview
 );
 
 router.post(
     '/menu',
-    authMiddleware.isMember,
+    authMiddleware.isAuthenticated,
     apiController.addFoodData
 );
 
 router.delete(
     '/menu',
-    authMiddleware.isMember,
+    authMiddleware.isAuthenticated,
     apiController.removeFoodData
 );
 
 router.patch(
     '/menu',
-    authMiddleware.isMember,
+    authMiddleware.isAuthenticated,
     apiController.changeFoodData
-);
-
-router.post(
-    '/href',
-    authMiddleware.isMember,
-    apiController.getShopLink
 );
 
 module.exports = router;
