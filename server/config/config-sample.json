@@ -4,7 +4,6 @@
     "DB_PASSWORD": "",
     "DB_DATABASE": "",
 
-    "GOOGLE_CONSUMER_KEY": "",
-    "GOOGLE_CONSUMER_SECERT": "",
-    "GOOGLE_OAUTH_CALLBACK": ""
+    "GOOGLE_CLIENT_ID": "",
+    "GOOGLE_CLIENT_SECERT": ""
 }
