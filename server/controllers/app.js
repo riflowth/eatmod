@@ -63,8 +63,8 @@ exports.getShop = async (req, res) => {
             rating: averageSum,
             allRatings: ratingSum,
             reviews: reviews.length,
-            openTime: shop.open,
-            closeTime: shop.close
+            openTime: shop.open.slice(0,5),
+            closeTime: shop.close.slice(0,5)
         });
     } catch {
         res.redirect('/shop');
@@ -72,8 +72,10 @@ exports.getShop = async (req, res) => {
 };
 
 exports.getShops = async (req, res) => {
+    let shops = await Shop.getShops();
     res.render('shops', {
-        user: req.isAuthenticated() ? await User.getById(req.user) : ''
+        user: req.isAuthenticated() ? await User.getById(req.user) : '',
+        shops: shops
     });
 };
 
