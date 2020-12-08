@@ -32,10 +32,10 @@ exports.getShop = async (req, res) => {
         let reviews = await Shop.getReviews(id);
         let ratingSum = 0;
         let averageSum = 0;
-        if(reviews.length != 0){
+        if (reviews.length != 0){
             ratingSum = findSumRating(reviews);
             averageSum = ratingSum / reviews.length;
-        }
+        }       
         
         res.render('shop', {
             user: req.isAuthenticated() ? await User.getById(req.user) : '',
@@ -46,7 +46,8 @@ exports.getShop = async (req, res) => {
             allRatings: ratingSum,
             reviews: reviews.length,
             openTime: shop.open.slice(0,5),
-            closeTime: shop.close.slice(0,5)
+            closeTime: shop.close.slice(0,5),
+            menuImages: await Menu.getRecomMenuImagesByShopId(shop.id)
         });
     } catch {
         res.redirect('/shop');
@@ -96,4 +97,8 @@ async function fillShopsInformation(shops){
         shops[i].reviewUrl = `/shop/${shops[i].id}`;
         shops[i].imgUrl = `../assets/images/shops/${shops[i].id}.jpg` 
     }
+
+    return shops;
 }
+
+

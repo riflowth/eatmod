@@ -14,13 +14,13 @@ exports.findShopIdByMenuId = async (id) => {
 
 exports.findImageUrlByMenuId = async (id) => {
     let shop_id = await this.findShopIdByMenuId(id);
-    image_url = `./assets/images/menus/${shop_id}_${id}.jpg`;
+    image_url = `/assets/images/menus/${shop_id}_${id}.jpg`;
     return image_url;
 };
 
 exports.findShopLinkByMenuId = async (id) => {
     let shop_id = await this.findShopIdByMenuId(id);
-    let shop_link = `./shop/${shop_id}`;
+    let shop_link = `/shop/${shop_id}`;
     return shop_link;
 }
 
@@ -53,10 +53,10 @@ exports.getRecomMenuImagesByShopId = async (shop_id) => {
     shopId = await this.findMenuIdByShopId(shop_id);
 
     for (let i = 0; i < shopId.length; i++) {
-        recomMenuImages[i] = await this.findMenuImagesById(shopId[i]);
+        recomMenuImages[i] = await this.findImageUrlByMenuId(shopId[i]);
     }
+    
     return recomMenuImages;
-
 }
 
 exports.getRandomMenuImages = async (req, res) => {
@@ -73,6 +73,7 @@ exports.getRandomMenuImages = async (req, res) => {
         let menuId = randomMenuId[i];
         randomMenus[i] = await this.findMenuImagesById(menuId);
     }
+
     return randomMenus;
 }
 
