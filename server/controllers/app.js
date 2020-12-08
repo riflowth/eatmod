@@ -6,28 +6,13 @@ const User = require('../models/user');
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
     let randomShops = [];
-
-    for (let i = 0; i < 4; i++) {
+    for(let i = 0; i < 4; i++){
         do {
             randomShops[i] = shops[Math.floor(Math.random() * shops.length)];
         } while (new Set(randomShops).size != randomShops.length);
-
-        let reviews = await Shop.getReviews(randomShops[i].id);
-        let rating = 0;
-
-        if (reviews.length != 0) {
-            for (review of reviews) {
-                rating = rating + review.rating;
-            }
-            rating = rating / reviews.length;
-        }
-        
-        randomShops[i].rating = rating;
-        randomShops[i].review = reviews.length;
-        randomShops[i].reviewUrl = `/shop/${randomShops[i].id}`;
-        randomShops[i].imgUrl = `../assets/images/shops/${randomShops[i].id}.jpg` 
     }
 
+    randomShops = await fillShopsInformation(randomShops);
     let randomMenus = await Menu.getRandomMenuImages();
 
     res.render(
@@ -45,15 +30,12 @@ exports.getShop = async (req, res) => {
     try {
         let shop = await Shop.getShop(id);
         let reviews = await Shop.getReviews(id);
-        let averageSum = 0;
         let ratingSum = 0;
-
-        if (reviews.length != 0) {
-            for (review of reviews) {
-                ratingSum = ratingSum + review.rating;
-            }
+        let averageSum = 0;
+        if(reviews.length != 0){
+            ratingSum = findSumRating(reviews);
             averageSum = ratingSum / reviews.length;
-        }
+        }        
 
         res.render('shop', {
             user: req.isAuthenticated() ? await User.getById(req.user) : '',
@@ -73,6 +55,9 @@ exports.getShop = async (req, res) => {
 
 exports.getShops = async (req, res) => {
     let shops = await Shop.getShops();
+    
+    shops = await fillShopsInformation(shops);
+
     res.render('shops', {
         user: req.isAuthenticated() ? await User.getById(req.user) : '',
         shops: shops
@@ -84,3 +69,32 @@ exports.getLogin = async (req, res) => {
         user: req.isAuthenticated() ? await User.getById(req.user) : ''
     });
 };
+
+function findSumRating(reviews){
+    let ratingSum = 0;
+    for (review of reviews) {
+            ratingSum = ratingSum + review.rating;
+    }   
+    return ratingSum; 
+}
+
+async function fillShopsInformation(shops){
+    for (let i = 0; i < shops.length; i++) {
+        
+        let reviews = await Shop.getReviews(shops[i].id);
+        let rating = 0;
+
+        if (reviews.length != 0) {
+            for (review of reviews) {
+                rating = rating + review.rating;
+            }
+            rating = rating / reviews.length;
+        }
+        
+        shops[i].rating = rating;
+        shops[i].review = reviews.length;
+        shops[i].reviewUrl = `/shop/${shops[i].id}`;
+        shops[i].imgUrl = `../assets/images/shops/${shops[i].id}.jpg` 
+    }
+    return shops;
+}
