@@ -97,8 +97,6 @@ async function fillShopsInformation(shops){
         shops[i].reviewUrl = `/shop/${shops[i].id}`;
         shops[i].imgUrl = `../assets/images/shops/${shops[i].id}.jpg` 
     }
-
-    return shops;
 }
 
 
