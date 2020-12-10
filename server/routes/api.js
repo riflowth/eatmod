@@ -14,15 +14,9 @@ router.get('/', (req, res) => {
 router.post(
     '/review',
     authMiddleware.isAuthenticated,
-    apiController.writeReview
+    apiController.writeOrUpdateReview
 );
   
-router.put(
-    '/review',
-    authMiddleware.isAuthenticated,
-    apiController.updateReview
-);
-
 router.delete(
     '/review',
     authMiddleware.isAuthenticated,

@@ -34,5 +34,10 @@ exports.updateReview = async (rating, userId, review, shopId) => {
 }
 
 exports.deleteReview = async (userId, shopId) => {
-    knex('reviews').del().where({ user_id: userId, shop_id: shopId });
+    await knex('reviews').del().where({ user_id: userId, shop_id: shopId });
+}
+
+exports.getReview = async (userId, shopId) => {
+    let review = await knex('reviews').select('rating', 'review').where({ user_id: userId, shop_id: shopId});
+    return JSON.parse(JSON.stringify(review[0]));
 }
