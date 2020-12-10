@@ -1,3 +1,4 @@
+const { json } = require('express');
 const knex = require('../database/knex.js');
 const Menu = require('../models/menu.js');
 
@@ -41,6 +42,12 @@ exports.findMenuImagesById = async (id) => {
     return image;
 }
 
+exports.findMenuTagByMenuId = async (id) => {
+    let tag = await knex('foods').select('tag').where({ id: id });
+    tag = (Object.values(JSON.parse(JSON.stringify(tag[0])))[0]).split(',') // finally... I have spend amount of time to trial and error about seed file T_T
+    return tag
+}
+
 exports.getMenuImagesById = async (id) => {
     let image = [];
     image[0] = await this.findImageUrlByMenuId(id);
@@ -73,7 +80,7 @@ exports.getRandomMenuImages = async (req, res) => {
         let menuId = randomMenuId[i];
         randomMenus[i] = await this.findMenuImagesById(menuId);
     }
-
+    
     return randomMenus;
 }
 
@@ -105,3 +112,10 @@ exports.updateFoodData = async (id, name, type, price , shop_id) => {
             shop_id: shop_id
         }).then();
 }
+
+// seed tag: "[ 'ชา', 'ชาเขียว', 'ชาเย็น', 'น้ำ', 'เครื่องดื่ม' ]"
+    //tag = Object.values(JSON.parse(JSON.stringify(tag[0])))[0];
+    //tag = tag[0] // RowDataPacket { tag: "[ 'กาแฟ', 'น้ำ', 'เครื่องดื่ม' ]" } //object
+    //tag = JSON.stringify(tag[0]) // {"tag":"[ 'กาแฟ', 'น้ำ', 'เครื่องดื่ม' ]"} //string
+    //tag = JSON.parse(JSON.stringify(tag[0])) // { tag: "[ 'กาแฟ', 'น้ำ', 'เครื่องดื่ม' ]" } //object
+    //tag = Object.values(JSON.parse(JSON.stringify(tag[0])))[0] // [ 'กาแฟ', 'น้ำ', 'เครื่องดื่ม' ] //string
