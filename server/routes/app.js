@@ -20,6 +20,11 @@ router.get(
 );
 
 router.get(
+    '/food',
+    appController.getFood
+);
+
+router.get(
     '/login',
     appController.getLogin
 );
