@@ -44,15 +44,15 @@ exports.findMenuImagesById = async (id) => {
 
 exports.findMenuTagByMenuId = async (id) => {
     let tag = await knex('foods').select('tag').where({ id: id });
-    tag = (Object.values(JSON.parse(JSON.stringify(tag[0])))[0]).split(',') // finally... I have spend amount of time to trial and error about seed file T_T
+    tag = (Object.values(JSON.parse(JSON.stringify(tag[0])))[0]).split(',')
     return tag
 }
 
-exports.findMenuIdBySearchKeyWord = async (searchKeyword) => {
+exports.findMenuIdByTag = async (tag) => {
     let menuId = [];
     for (let i = 1, k = 0; i < ( await this.findLastId() ); i++ ) {
         for( let j = 0; j < ( await this.findMenuTagByMenuId(i) ).length; j++ ){
-            if ( searchKeyword == ( await this.findMenuTagByMenuId(i))[j] ) {
+            if ( tag == ( await this.findMenuTagByMenuId(i))[j] ) {
                 menuId[k] = i;
                 k++;
                 break;
@@ -126,10 +126,3 @@ exports.updateFoodData = async (id, name, type, price , shop_id) => {
             shop_id: shop_id
         }).then();
 }
-
-// seed tag: "[ 'ชา', 'ชาเขียว', 'ชาเย็น', 'น้ำ', 'เครื่องดื่ม' ]"
-    //tag = Object.values(JSON.parse(JSON.stringify(tag[0])))[0];
-    //tag = tag[0] // RowDataPacket { tag: "[ 'กาแฟ', 'น้ำ', 'เครื่องดื่ม' ]" } //object
-    //tag = JSON.stringify(tag[0]) // {"tag":"[ 'กาแฟ', 'น้ำ', 'เครื่องดื่ม' ]"} //string
-    //tag = JSON.parse(JSON.stringify(tag[0])) // { tag: "[ 'กาแฟ', 'น้ำ', 'เครื่องดื่ม' ]" } //object
-    //tag = Object.values(JSON.parse(JSON.stringify(tag[0])))[0] // [ 'กาแฟ', 'น้ำ', 'เครื่องดื่ม' ] //string
