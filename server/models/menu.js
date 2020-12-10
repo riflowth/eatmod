@@ -2,6 +2,11 @@ const { json } = require('express');
 const knex = require('../database/knex.js');
 const Menu = require('../models/menu.js');
 
+exports.findMenuById = async (id) => {
+    let foods = await knex.select().from('foods').whereIn('id', id);
+    return JSON.parse(JSON.stringify(foods));
+}
+
 exports.findLastId = async (req, res) => {
     let lastId = await knex('foods').max('id');
     lastId = JSON.parse(JSON.stringify(lastId[0]));
@@ -60,6 +65,18 @@ exports.findMenuIdByTag = async (tag) => {
         }
     }
     return menuId;
+}
+
+exports.getMenusByTag = async (tag) => {
+    let menus
+    menuId = await this.findMenuIdByTag(tag)
+    menus = await this.findMenuById(menuId)
+    return menus;
+}
+
+exports.getAllMenus = async () => {
+    let foods = await knex.select().from('foods');
+    return JSON.parse(JSON.stringify(foods));
 }
 
 exports.getMenuImagesById = async (id) => {
