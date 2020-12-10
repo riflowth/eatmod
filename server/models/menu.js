@@ -48,6 +48,20 @@ exports.findMenuTagByMenuId = async (id) => {
     return tag
 }
 
+exports.findMenuIdBySearchKeyWord = async (searchKeyword) => {
+    let menuId = [];
+    for (let i = 1, k = 0; i < ( await this.findLastId() ); i++ ) {
+        for( let j = 0; j < ( await this.findMenuTagByMenuId(i) ).length; j++ ){
+            if ( searchKeyword == ( await this.findMenuTagByMenuId(i))[j] ) {
+                menuId[k] = i;
+                k++;
+                break;
+            }
+        }
+    }
+    return menuId;
+}
+
 exports.getMenuImagesById = async (id) => {
     let image = [];
     image[0] = await this.findImageUrlByMenuId(id);
