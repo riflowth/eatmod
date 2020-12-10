@@ -29,31 +29,43 @@ exports.changeFoodData = (req, res) => {
     res.status(201).json({ success: true });
 };
 
-exports.writeOrUpdateReview = async (req, res) => {
+exports.updateReview = async (req, res) => {
     let { review } = req.body;
     let { userId } = req.body;
     let { rating } = req.body;
     let { shopId } = req.body;
-    
+
     let findReview;
-    let findShop;
-    try{
+    try {
         findReview = await Shop.getReview(userId, shopId);
         await Shop.updateReview(rating, userId, review, shopId);
         res.status(200).json({ success: true });
     } catch {
-        
-        try {
-            findReview = await Shop.getShop(shopId);
-            await Shop.writeReview(rating, userId, review, shopId);
-            res.status(201).json({ success: true });
-        } catch {
-            if (findShop == null){
-                res.status(404).json({ success: false });
-            } else {
-                res.status(500).json({ success: false });
-            }   
-        }    
+        if ( findReview == null){
+            res.status(404).json({ success: false });
+        } else {
+            res.status(500).json({ success: false });
+        }
+    }
+};
+
+exports.writeReview = async (req, res) => {
+    let { review } = req.body;
+    let { userId } = req.body;
+    let { rating } = req.body;
+    let { shopId } = req.body;
+
+    let findShop;
+    try{
+        findShop = await Shop.getShop(shopId);
+        await Shop.writeReview(rating,userId, review, shopId);
+        res.status(201).json({ success: true });
+    } catch {  
+        if (findShop == null){
+            res.status(404).json({ success: false });
+        } else {
+            res.status(500).json({ success: false });
+        }
     }
 };
 
@@ -71,7 +83,7 @@ exports.deleteReview = async (req, res) => {
             res.status(404).json({ success: false });
         } else {
             res.status(500).json({ success: false });
-        }   
+        }
     }
 };
 
