@@ -2,6 +2,7 @@ const knex = require('../database/knex');
 const Shop = require('../models/shop')
 const Menu = require('../models/menu');
 const User = require('../models/user');
+var querystring = require('querystring');
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
@@ -53,6 +54,27 @@ exports.getShop = async (req, res) => {
         res.redirect('/shop');
     }
 };
+
+exports.getFood = async (req, res) => {
+    let keyword = "น้ำ" //TODO: qurey string
+    let foods = await Menu.getMenusByTag(keyword);
+    let imgUrlIndex = await Menu.findMenuIdByTag(keyword);//TODO: optimize line 58 and line 59
+
+    if (foods.length != 0) {
+        for (let i = 0; i < foods.length; i++) 
+            foods[i].imgUrl = await Menu.findImageUrlByMenuId(imgUrlIndex[i]);
+
+    } else {
+        foods = await Menu.getAllMenus();
+        for (let i = 0; i < foods.length; i++) 
+            foods[i].imgUrl = await Menu.findImageUrlByMenuId(i+1);
+    }
+
+    res.render('food', {
+        user: req.isAuthenticated() ? await User.getById(req.user) : '',
+        foods: foods
+    });
+}
 
 exports.getShops = async (req, res) => {
     let shops = await Shop.getShops();
