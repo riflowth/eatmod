@@ -1,5 +1,3 @@
-const { json } = require('express');
-const { distinct } = require('../database/knex.js');
 const knex = require('../database/knex.js');
 const Menu = require('../models/menu.js');
 

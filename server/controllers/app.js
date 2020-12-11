@@ -55,6 +55,7 @@ exports.getShop = async (req, res) => {
 };
 
 exports.getFood = async (req, res) => {
+    try {
     let keyword = (req.query.tag).split(",")
     let foods = await Menu.getMenusByTag(keyword);
 
@@ -67,6 +68,11 @@ exports.getFood = async (req, res) => {
         user: req.isAuthenticated() ? await User.getById(req.user) : '',
         foods: foods
     });
+
+    } catch {
+        res.redirect('/food?tag=');
+    }
+
 }
 
 exports.getShops = async (req, res) => {
