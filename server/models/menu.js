@@ -1,6 +1,11 @@
 const knex = require('../database/knex.js');
 const Menu = require('../models/menu.js');
 
+exports.findMenusById = async (id) => {
+    let foods = await knex.select().from('foods').whereIn('id', id);
+    return JSON.parse(JSON.stringify(foods));
+}
+
 exports.findLastId = async (req, res) => {
     let lastId = await knex('foods').max('id');
     lastId = JSON.parse(JSON.stringify(lastId[0]));
@@ -41,6 +46,43 @@ exports.findMenuImagesById = async (id) => {
     return image;
 }
 
+exports.findMenuTagByMenuId = async (id) => {
+    let tag = await knex('foods').select('tag').where({ id: id });
+    tag = (Object.values(JSON.parse(JSON.stringify(tag[0])))[0]).split(',')
+    return tag
+}
+
+exports.findMenuIdByTag = async (tag) => {
+    let menuId = [];
+    let lastId = await this.findLastId()
+
+    for (let i = 1, k = 0; i < lastId; i++ ) {
+        let comparer = await this.findMenuTagByMenuId(i)
+        let difference = tag.filter(x => !comparer.includes(x));
+        
+        for( let j = 0; j < comparer.length; j++ ){
+            if ( difference.length == 0 ) { 
+                menuId[k] = i;
+                k++;
+                break;
+            }
+        }
+    }
+    return menuId;
+}
+
+exports.getMenusByTag = async (tag) => {
+    let menus
+    menuId = await this.findMenuIdByTag(tag)
+    menus = await this.findMenusById(menuId)
+    return menus;
+}
+
+exports.getAllMenus = async () => {
+    let foods = await knex.select().from('foods');
+    return JSON.parse(JSON.stringify(foods));
+}
+
 exports.getMenuImagesById = async (id) => {
     let image = [];
     image[0] = await this.findImageUrlByMenuId(id);
@@ -73,7 +115,7 @@ exports.getRandomMenuImages = async (req, res) => {
         let menuId = randomMenuId[i];
         randomMenus[i] = await this.findMenuImagesById(menuId);
     }
-
+    
     return randomMenus;
 }
 

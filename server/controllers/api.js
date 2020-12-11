@@ -73,3 +73,10 @@ exports.getShopLink = async (req, res) => {
 
     res.status(200).json({ success: true });
 }
+
+exports.search = async (req, res) => {
+    let tag = req.body.tag;
+    Menu.findMenuIdByTag(tag);
+
+    res.status(200).json({ success: true });
+}

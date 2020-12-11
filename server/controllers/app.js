@@ -54,6 +54,27 @@ exports.getShop = async (req, res) => {
     }
 };
 
+exports.getFood = async (req, res) => {
+    try {
+    let keyword = (req.query.tag).split(",")
+    let foods = await Menu.getMenusByTag(keyword);
+
+    if (foods.length == 0)
+        foods = await Menu.getAllMenus();
+    for (let i = 0; i < foods.length; i++) 
+        foods[i].imgUrl = await Menu.findImageUrlByMenuId(foods[i].id);
+
+    res.render('food', {
+        user: req.isAuthenticated() ? await User.getById(req.user) : '',
+        foods: foods
+    });
+
+    } catch {
+        res.redirect('/food?tag=');
+    }
+
+}
+
 exports.getShops = async (req, res) => {
     let shops = await Shop.getShops();
     
