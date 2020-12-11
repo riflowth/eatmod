@@ -2,7 +2,8 @@ const knex = require('../database/knex');
 const Shop = require('../models/shop')
 const Menu = require('../models/menu');
 const User = require('../models/user');
-var querystring = require('querystring');
+var http = require('http');
+var url = require('url');
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
@@ -56,7 +57,8 @@ exports.getShop = async (req, res) => {
 };
 
 exports.getFood = async (req, res) => {
-    let keyword = "น้ำ" //TODO: qurey string
+    let queryString = url.parse(req.url, true).query;
+    let keyword = queryString.tag;
     let foods = await Menu.getMenusByTag(keyword);
     let imgUrlIndex = await Menu.findMenuIdByTag(keyword);//TODO: optimize line 58 and line 59
 
