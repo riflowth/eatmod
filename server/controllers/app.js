@@ -55,7 +55,7 @@ exports.getShop = async (req, res) => {
 };
 
 exports.getFood = async (req, res) => {
-    let keyword = req.query.tag
+    let keyword = (req.query.tag).split(",")
     let foods = await Menu.getMenusByTag(keyword);
 
     if (foods.length == 0)
