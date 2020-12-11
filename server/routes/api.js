@@ -47,9 +47,4 @@ router.patch(
     apiController.changeFoodData
 );
 
-router.post(
-    '/search',
-    apiController.search
-);
-
 module.exports = router;
