@@ -2,8 +2,6 @@ const knex = require('../database/knex');
 const Shop = require('../models/shop')
 const Menu = require('../models/menu');
 const User = require('../models/user');
-var http = require('http');
-var url = require('url');
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
@@ -57,20 +55,13 @@ exports.getShop = async (req, res) => {
 };
 
 exports.getFood = async (req, res) => {
-    let queryString = url.parse(req.url, true).query;
-    let keyword = queryString.tag;
+    let keyword = req.query.tag
     let foods = await Menu.getMenusByTag(keyword);
-    let imgUrlIndex = await Menu.findMenuIdByTag(keyword);//TODO: optimize line 58 and line 59
 
-    if (foods.length != 0) {
-        for (let i = 0; i < foods.length; i++) 
-            foods[i].imgUrl = await Menu.findImageUrlByMenuId(imgUrlIndex[i]);
-
-    } else {
+    if (foods.length == 0)
         foods = await Menu.getAllMenus();
-        for (let i = 0; i < foods.length; i++) 
-            foods[i].imgUrl = await Menu.findImageUrlByMenuId(i+1);
-    }
+    for (let i = 0; i < foods.length; i++) 
+        foods[i].imgUrl = await Menu.findImageUrlByMenuId(foods[i].id);
 
     res.render('food', {
         user: req.isAuthenticated() ? await User.getById(req.user) : '',
