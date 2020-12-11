@@ -1,4 +1,5 @@
 const { json } = require('express');
+const { distinct } = require('../database/knex.js');
 const knex = require('../database/knex.js');
 const Menu = require('../models/menu.js');
 
@@ -55,9 +56,14 @@ exports.findMenuTagByMenuId = async (id) => {
 
 exports.findMenuIdByTag = async (tag) => {
     let menuId = [];
-    for (let i = 1, k = 0; i < ( await this.findLastId() ); i++ ) {
-        for( let j = 0; j < ( await this.findMenuTagByMenuId(i) ).length; j++ ){
-            if ( tag == ( await this.findMenuTagByMenuId(i))[j] ) {
+    let lastId = await this.findLastId()
+
+    for (let i = 1, k = 0; i < lastId; i++ ) {
+        let comparer = await this.findMenuTagByMenuId(i)
+        let difference = tag.filter(x => !comparer.includes(x));
+        
+        for( let j = 0; j < comparer.length; j++ ){
+            if ( difference.length == 0 ) { 
                 menuId[k] = i;
                 k++;
                 break;
