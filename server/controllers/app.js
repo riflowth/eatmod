@@ -15,13 +15,11 @@ exports.getIndex = async (req, res) => {
     await fillShopsInformation(randomShops);
     let randomMenus = await Menu.getRandomMenuImages();
 
-    res.render(
-        'index', {
+    res.render('index', {
         user: req.isAuthenticated() ? await User.getById(req.user) : '',
         recommendMenus: randomMenus,
         recommendShops: randomShops
-    }
-    );
+    });
 };
 
 exports.getShop = async (req, res) => {
@@ -55,23 +53,29 @@ exports.getShop = async (req, res) => {
 };
 
 exports.getFood = async (req, res) => {
-    try {
-        let keyword = (req.query.tag).split(",")
-        let foods = await Menu.getMenusByTag(keyword);
-
-        if (foods.length == 0)
-            foods = await Menu.getAllMenus();
-        for (let i = 0; i < foods.length; i++)
-            foods[i].imgUrl = await Menu.findImageUrlByMenuId(foods[i].id);
-
-        res.render('food', {
-            user: req.isAuthenticated() ? await User.getById(req.user) : '',
-            foods: foods
-        });
-    } catch {
-        res.redirect('/food');
+    let queryTag = req.query.tag;
+    let foods = await Menu.getAllMenus();
+    
+    if (queryTag) {
+        let tag = queryTag.split(',').filter(v => v != '');
+        foods = await Menu.getMenusByTag(tag);
     }
 
+    for (let i = 0; i < foods.length; i++) {
+        let menuId = foods[i].id;
+        let shopId = await Menu.findShopIdByMenuId(menuId);
+        let shopData = await Shop.getShop(shopId);
+
+        foods[i].imgUrl = await Menu.findImageUrlByMenuId(menuId);
+        foods[i].shopId = shopData.id;
+        foods[i].shopName = shopData.name;
+        foods[i].location = shopData.location;
+    }
+
+    res.render('food', {
+        user: req.isAuthenticated() ? await User.getById(req.user) : '',
+        foods: foods
+    });
 }
 
 exports.getShops = async (req, res) => {
