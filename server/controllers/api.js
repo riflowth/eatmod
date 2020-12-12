@@ -48,13 +48,13 @@ exports.updateReview = async (req, res) => {
 };
 
 exports.writeReview = async (req, res) => {
-    let { title, review, rating, date, foodId, shopId } = req.body;
+    let { title, review, rating, foodId, shopId } = req.body;
     let userId = req.user;
 
     let findShop;
     try{
         findShop = await Shop.getShop(shopId);
-        await Shop.writeReview(title, review, rating, date, foodId, userId, shopId);
+        await Shop.writeReview(title, review, rating, new Date(), foodId, userId, shopId);
         res.status(201).json({ success: true });
     } catch {  
         if (findShop == null){
