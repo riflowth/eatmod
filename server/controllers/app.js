@@ -34,10 +34,12 @@ exports.getShop = async (req, res) => {
         let reviews = await Shop.getReviews(id);
         let ratingSum = 0;
         let rating = 0;
+      
         if (reviews.length != 0) {
             ratingSum = findSumRating(reviews);
             rating = Math.floor(ratingSum / reviews.length);
         }
+
         reviews.forEach(async (review) => {
             let recommend = await Menu.findMenusById([review.food_id]);
             review.recommend = recommend[0].name;
@@ -45,6 +47,9 @@ exports.getShop = async (req, res) => {
             review.name = user.display_name;
             review.date = review.date.slice(0,10);
         })
+
+        let price = await Menu.findPriceRangeByShopId(shop.id);
+
         res.render('shop', {
             user: req.isAuthenticated() ? await User.getById(req.user) : '',
             name: shop.name,
@@ -55,8 +60,8 @@ exports.getShop = async (req, res) => {
             reviewsCount: reviews.length,
             openTime: shop.open.slice(0, 5),
             closeTime: shop.close.slice(0, 5),
-            minPrice: shop.minPrice,
-            maxPrice: shop.maxPrice,
+            minPrice: price[0],
+            maxPrice: price[1],
             menuImages: await Menu.getRecomMenuImagesByShopId(shop.id),
             menus: await Menu.getAllMenusByShopId(shop.id),
             reviews: reviews
@@ -119,12 +124,12 @@ function findSumRating(reviews) {
 
 async function fillShopsInformation(shops) {
     for (let i = 0; i < shops.length; i++) {
-        let price = await Menu.findPriceRangeByShopId(shops[i].id)
         let reviews = await Shop.getReviews(shops[i].id);
         let rating = 0;
         let ratingSum = 0;
-        let price_min = price[0]
-        let price_max = price[1]
+        let price_min = price[0];
+        let price_max = price[1];
+        
         if (reviews.length != 0) {
             ratingSum = findSumRating(reviews);
             rating = Math.floor(ratingSum / reviews.length);

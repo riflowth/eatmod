@@ -100,3 +100,20 @@ img {
     -moz-user-drag: none;
     -o-user-drag: none;
 }
+
+.btn-grad-primary {
+    background-image: linear-gradient(to right, #FF512F 0%, #F09819  51%, #FF512F  100%);
+}
+
+.btn-grad-primary {
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+}
+
+.btn-grad-primary:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+}
