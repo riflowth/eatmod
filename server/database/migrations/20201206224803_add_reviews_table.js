@@ -4,8 +4,8 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.string('title');
         table.string('review');
-        table.float('rating');        
-        table.date('date');
+        table.integer('rating');        
+        table.datetime('date');
         table.integer('food_id');
         table.string('user_id');        
         table.integer('shop_id');
