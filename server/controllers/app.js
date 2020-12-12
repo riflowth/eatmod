@@ -47,7 +47,8 @@ exports.getShop = async (req, res) => {
             closeTime: shop.close.slice(0, 5),
             minPrice: shop.minPrice,
             maxPrice: shop.maxPrice,
-            menuImages: await Menu.getRecomMenuImagesByShopId(shop.id)
+            menuImages: await Menu.getRecomMenuImagesByShopId(shop.id),
+            menus: await Menu.getAllMenusByShopId(shop.id)
         });
     } catch {
         res.redirect('/shop');

@@ -109,6 +109,11 @@ exports.getAllMenus = async () => {
     return JSON.parse(JSON.stringify(foods));
 }
 
+exports.getAllMenusByShopId = async (shopId) => {
+    let foods = await knex.select().from('foods').where({ shop_id: shopId });
+    return JSON.parse(JSON.stringify(foods));
+}
+
 exports.getMenuImagesById = async (id) => {
     let image = [];
     image[0] = await this.findImageUrlByMenuId(id);
