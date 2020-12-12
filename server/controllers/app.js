@@ -48,7 +48,7 @@ exports.getShop = async (req, res) => {
             review.recommend = recommend[0].name;
             user = await User.getById(review.user_id);
             review.name = user.display_name;
-            review.date = moment(review.date.slice(0,10)).format('ll');
+            review.date = moment(review.date).format('ll');
         })
 
         let price = await Menu.findPriceRangeByShopId(shop.id);
