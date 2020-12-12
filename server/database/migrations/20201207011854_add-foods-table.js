@@ -5,6 +5,7 @@ exports.up = function(knex) {
         table.string('type');
         table.integer('price');
         table.integer('shop_id');
+        table.string('tag');
     });
 };
 
