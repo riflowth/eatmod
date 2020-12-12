@@ -2,7 +2,10 @@ const knex = require('../database/knex');
 const Shop = require('../models/shop')
 const Menu = require('../models/menu');
 const User = require('../models/user');
-const Instagram = require('../models/instagram')
+
+const Instagram = require('../models/instagram');
+const moment = require('moment');
+moment.locale('th');
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
@@ -33,26 +36,39 @@ exports.getShop = async (req, res) => {
         let shop = await Shop.getShop(id);
         let reviews = await Shop.getReviews(id);
         let ratingSum = 0;
-        let averageSum = 0;
+        let rating = 0;
+      
         if (reviews.length != 0) {
             ratingSum = findSumRating(reviews);
-            averageSum = ratingSum / reviews.length;
+            rating = Math.floor(ratingSum / reviews.length);
         }
+
+        reviews.forEach(async (review) => {
+            let recommend = await Menu.findMenusById([review.food_id]);
+            review.recommend = recommend[0].name;
+            user = await User.getById(review.user_id);
+            review.name = user.display_name;
+            review.date = moment(review.date).format('ll');
+        })
+
+        let price = await Menu.findPriceRangeByShopId(shop.id);
 
         res.render('shop', {
             user: req.isAuthenticated() ? await User.getById(req.user) : '',
+            id: id,
             name: shop.name,
             type: shop.type,
             location: shop.location,
-            rating: averageSum,
+            rating: rating,
             allRatings: ratingSum,
-            reviews: reviews.length,
+            reviewsCount: reviews.length,
             openTime: shop.open.slice(0, 5),
             closeTime: shop.close.slice(0, 5),
-            minPrice: shop.minPrice,
-            maxPrice: shop.maxPrice,
+            minPrice: price[0],
+            maxPrice: price[1],
             menuImages: await Menu.getRecomMenuImagesByShopId(shop.id),
-            menus: await Menu.getAllMenusByShopId(shop.id)
+            menus: await Menu.getAllMenusByShopId(shop.id),
+            reviews: reviews
         });
     } catch {
         res.redirect('/shop');
@@ -112,23 +128,19 @@ function findSumRating(reviews) {
 
 async function fillShopsInformation(shops) {
     for (let i = 0; i < shops.length; i++) {
-        let price = await Menu.findPriceRangeByShopId(shops[i].id)
         let reviews = await Shop.getReviews(shops[i].id);
         let rating = 0;
-        let price_min = price[0]
-        let price_max = price[1]
+        let ratingSum = 0;
+
         if (reviews.length != 0) {
-            for (review of reviews) {
-                rating = rating + review.rating;
-            }
-            rating = rating / reviews.length;
+            ratingSum = findSumRating(reviews);
+            rating = Math.floor(ratingSum / reviews.length);
         }
 
+        shops[i].ratingSum = ratingSum;
         shops[i].rating = rating;
         shops[i].review = reviews.length;
         shops[i].reviewUrl = `/shop/${shops[i].id}`;
-        shops[i].imgUrl = `../assets/images/shops/${shops[i].id}.jpg`
-        shops[i].minPrice = price_min,
-        shops[i].maxPrice = price_max
+        shops[i].imgUrl = `../assets/images/shops/${shops[i].id}.jpg`;
     }
 }
