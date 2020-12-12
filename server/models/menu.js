@@ -13,9 +13,19 @@ exports.convertRawDataToValue = async (rawdata) => {
     return value;
 }
 
+exports.convertRawDataToObject = async (rawdata) => {
+    let object = JSON.parse(JSON.stringify(rawdata))
+    return object;
+}
+
 exports.findMenusById = async (id) => {
     let foods = await knex.select().from('foods').whereIn('id', id);
-    return JSON.parse(JSON.stringify(foods));
+    return await this.convertRawDataToObject(foods);
+}
+
+exports.findMenusByshopId = async (shop_id) => {
+    let foods = await knex.select().from('foods').whereIn('shop_id', shop_id);
+    return await this.convertRawDataToObject(foods);
 }
 
 exports.findLastId = async (req, res) => {
@@ -28,10 +38,10 @@ exports.findShopIdByMenuId = async (id) => {
     return await this.convertRawDataToValue(shopId);
 }
 
-exports.findPriceByShopId = async (shop_id) => {
+exports.findPriceRangeByShopId = async (shop_id) => {
     let result = []
     let price = await knex('foods').select('price').where({ shop_id: shop_id });
-    price = await this.convertRawDataToArray(price)
+    price = await this.convertRawDataToArray(price);
     result[0] = Math.min(...price);
     result[1] = Math.max(...price);
     return result;
@@ -64,16 +74,16 @@ exports.findMenuImagesById = async (id) => {
 
 exports.findMenuTagByMenuId = async (id) => {
     let tag = await knex('foods').select('tag').where({ id: id });
-    tag = await this.convertRawDataToValue(tag)
-    return tag.split(',')
+    tag = await this.convertRawDataToValue(tag);
+    return tag.split(',');
 }
 
 exports.findMenuIdByTag = async (tag) => {
     let menuId = [];
-    let lastId = await this.findLastId()
+    let lastId = await this.findLastId();
 
     for (let i = 1, k = 0; i < lastId; i++) {
-        let comparer = await this.findMenuTagByMenuId(i)
+        let comparer = await this.findMenuTagByMenuId(i);
         let difference = tag.filter(x => !comparer.includes(x));
 
         for (let j = 0; j < comparer.length; j++) {
@@ -88,9 +98,9 @@ exports.findMenuIdByTag = async (tag) => {
 }
 
 exports.getMenusByTag = async (tag) => {
-    let menus
-    menuId = await this.findMenuIdByTag(tag)
-    menus = await this.findMenusById(menuId)
+    let menus;
+    menuId = await this.findMenuIdByTag(tag);
+    menus = await this.findMenusById(menuId);
     return menus;
 }
 
