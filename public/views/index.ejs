@@ -84,7 +84,10 @@
         <div style="background-color: rgba(0, 0, 0, 0.05)">
             <div class="container pt-4 pb-4">
                 <div class="mt-3 d-flex flex-row align-items-center justify-content-between mb-3">
-                    <h3> Instagram Feeds</h3>
+                    <blockquote class="blockquote mb-2">
+                        <h3 class="mb-0">Instagram Feeds</h3>
+                        <footer class="blockquote-footer">#eatmod <cite title="Source Title">KMUTT Community</cite></footer>
+                    </blockquote>
                 </div>
                 <div class="row mb-2">
                     <div class="col-lg-4">
@@ -98,6 +101,21 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
+                        <div class="row d-flex justify-content-center pb-3">
+                            <% 
+                                if (typeof(instagramFeeds) != 'undefined') {
+                                    instagramFeeds.forEach((feed) => { 
+                            %>
+                                <div class="mx-2 mb-4">
+                                    <a href="<%= feed.originUrl %>" target="_blank">
+                                        <div class="position-relative">
+                                            <img src="<%= feed.imgUrl %>" style="object-fit: cover;" width="160rem" height="160rem">
+                                            <div class="overlay"><p class="overlay-text"><i class="fas fa-search"></i></p></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <% }); } %>
+                        </div>
                     </div>
                 </div>
             </div>
