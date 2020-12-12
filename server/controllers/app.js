@@ -107,7 +107,7 @@ function findSumRating(reviews) {
 
 async function fillShopsInformation(shops) {
     for (let i = 0; i < shops.length; i++) {
-        let price = await Menu.findPriceByShopId(shops[i].id)
+        let price = await Menu.findPriceRangeByShopId(shops[i].id)
         let reviews = await Shop.getReviews(shops[i].id);
         let rating = 0;
         let price_min = price[0]
