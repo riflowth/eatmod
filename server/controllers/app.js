@@ -52,6 +52,7 @@ exports.getShop = async (req, res) => {
 
         res.render('shop', {
             user: req.isAuthenticated() ? await User.getById(req.user) : '',
+            id: id,
             name: shop.name,
             type: shop.type,
             location: shop.location,
