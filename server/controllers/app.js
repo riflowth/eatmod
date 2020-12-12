@@ -2,7 +2,10 @@ const knex = require('../database/knex');
 const Shop = require('../models/shop')
 const Menu = require('../models/menu');
 const User = require('../models/user');
-const Instagram = require('../models/instagram')
+
+const Instagram = require('../models/instagram');
+const moment = require('moment');
+moment.locale('th');
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
@@ -45,7 +48,7 @@ exports.getShop = async (req, res) => {
             review.recommend = recommend[0].name;
             user = await User.getById(review.user_id);
             review.name = user.display_name;
-            review.date = review.date.slice(0,10);
+            review.date = moment(review.date.slice(0,10)).format('ll');
         })
 
         let price = await Menu.findPriceRangeByShopId(shop.id);
