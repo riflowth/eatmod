@@ -58,7 +58,11 @@
                         <h5 class="card-title">เวลาเปิด-ปิด</h5>
                         <h6 class="card-subtitle mb-2 text-muted">ทุกวัน <%= openTime %> - <%= closeTime %> น.</h6>
                         <h5 class="card-title mt-4">ช่วงราคา</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">25 - 35 บาท</h6>
+                        <% if (minPrice == maxPrice) { %>
+                            <h6 class="card-subtitle mb-2 text-muted"><%= minPrice %> บาท</h6>
+                        <% } else { %>
+                            <h6 class="card-subtitle mb-2 text-muted"><%= minPrice %> - <%= maxPrice %> บาท</h6>
+                        <% } %>
                         <h5 class="card-title mt-4">สถานที่</h5>
                         <h6 class="card-subtitle mb-2 text-muted"><%= location %></h6>
                     </div>
