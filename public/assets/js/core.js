@@ -67,6 +67,7 @@ $(function() {
                 icon: 'warning',
                 confirmButtonColor: '#e94a26',
             });
+            return;
         }
 
         if (formData.findhalal == 'ฮาลาล') {
