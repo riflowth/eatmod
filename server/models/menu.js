@@ -1,6 +1,18 @@
 const knex = require('../database/knex.js');
 const Menu = require('../models/menu.js');
 
+exports.convertRawDataToArray = async (rawdata) => {
+    let array = [];
+    for (let i = 0; i < rawdata.length; i++)
+        array[i] = Object.values(JSON.parse(JSON.stringify(rawdata[i])))[0];
+    return array;
+}
+
+exports.convertRawDataToValue = async (rawdata) => {
+    let value = Object.values(JSON.parse(JSON.stringify(rawdata[0])))[0]
+    return value;
+}
+
 exports.findMenusById = async (id) => {
     let foods = await knex.select().from('foods').whereIn('id', id);
     return JSON.parse(JSON.stringify(foods));
@@ -8,13 +20,28 @@ exports.findMenusById = async (id) => {
 
 exports.findLastId = async (req, res) => {
     let lastId = await knex('foods').max('id');
-    lastId = JSON.parse(JSON.stringify(lastId[0]));
-    return Object.values(lastId)[0];
+   // lastId = JSON.parse(JSON.stringify(lastId[0]));
+    //return Object.values(JSON.parse(JSON.stringify(lastId[0])))[0];
+    return await this.convertRawDataToValue(lastId)
 }
 
 exports.findShopIdByMenuId = async (id) => {
     let shopId = await knex('foods').select('shop_id').where({ id: id });
-    return Object.values(JSON.parse(JSON.stringify(shopId[0])))[0];
+    return await this.convertRawDataToValue(shopId);
+}
+
+exports.findPriceByShopId = async (shop_id) => {
+    let result = []
+    let price = await knex('foods').select('price').where({ shop_id: shop_id });
+    price = await this.convertRawDataToArray(price)
+    result[0] = Math.min(...price);
+    result[1] = Math.max(...price);
+    return result;
+}
+
+exports.findMenuIdByShopId = async (shop_id) => {
+    let menuId = await knex('foods').select('id').where({ shop_id: shop_id });
+    return await this.convertRawDataToArray(menuId);
 }
 
 exports.findImageUrlByMenuId = async (id) => {
@@ -29,15 +56,6 @@ exports.findShopLinkByMenuId = async (id) => {
     return shop_link;
 }
 
-exports.findMenuIdByShopId = async (shop_id) => {
-    let menuId = [];
-    menuId = await knex('foods').select('id').where({ shop_id: shop_id });
-    for (i = 0, length = menuId.length; i < length; i++) {
-        menuId[i] = Object.values(JSON.parse(JSON.stringify(menuId[i])))[0];
-    }
-    return menuId;
-}
-
 exports.findMenuImagesById = async (id) => {
     let image = {
         shop_url: await this.findShopLinkByMenuId(id),
@@ -48,8 +66,8 @@ exports.findMenuImagesById = async (id) => {
 
 exports.findMenuTagByMenuId = async (id) => {
     let tag = await knex('foods').select('tag').where({ id: id });
-    tag = (Object.values(JSON.parse(JSON.stringify(tag[0])))[0]).split(',')
-    return tag
+    tag = await this.convertRawDataToValue(tag)
+    return tag.split(',')
 }
 
 exports.findMenuIdByTag = async (tag) => {
