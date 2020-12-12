@@ -30,7 +30,7 @@
                                         <h5 class="d-inline"><span class="badge badge-primary"><%= reviewsCount %> รีวิว <i class="fas fa-comment text-white"></i></span></h5><small> <%= reviewsCount %> รีวิว</small>
                                     </div>
                                     <div class="col-12 mt-2">
-                                        <% if (!user) { %>
+                                        <% if (user) { %>
                                             <a class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#reviewModal"><i class="far fa-comment-dots text-primary"></i> เขียนรีวิว</a>
                                         <% } else { %>
                                             <a class="btn btn-sm btn-outline-dark" href="/login"><i class="far fa-comment-dots text-primary"></i> เขียนรีวิว</a>
