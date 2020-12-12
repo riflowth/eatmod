@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "instagram-web-api": "^2.2.2",
-    "knex": "^0.21.12",
+    "knex": "^0.21.13",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.6",
