@@ -7,7 +7,7 @@ exports.up = function(knex) {
         table.float('rating');        
         table.date('date');
         table.integer('food_id');
-        table.integer('user_id');        
+        table.string('user_id');        
         table.integer('shop_id');
     });
 };
