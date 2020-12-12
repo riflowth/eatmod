@@ -1,0 +1,42 @@
+<%- include('includes/header') %>
+
+<body>
+    <%- include('includes/nav') %>
+
+    <div class="container">
+        <nav>
+            <ol class="breadcrumb bg-transparent py-2 mb-0">
+                <li class="breadcrumb-item"><a href="/">หน้าแรก</a></li>
+                <li class="breadcrumb-item active">อาหาร</li>
+            </ol>
+        </nav>
+
+        <div class="text-center">
+            <h2 class="mt-4 mb-0">อาหาร</h2>
+            <small class="lead">รายการอาหารทั้งหมด</small>
+        </div>
+        <hr class="my-4">
+
+        <div class="row">
+            <% foods.forEach((food) => { %>
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <img class="card-img" src="<%= food.imgUrl %>" style="object-fit: cover" width="300px" height="200px">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary mb-0"><%= food.name %></h5>
+                            <p class="card-text text-muted"><%= food.type %></p>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge badge-secondary">ราคา <%= food.price %> บาท</span>
+                                <a href="/shop/<%= food.shopId %>"><span class="badge badge-primary"><i class="fas fa-map-marker-alt"></i>  <%= food.shopName %></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <%- include('includes/footer') %>
+</body>

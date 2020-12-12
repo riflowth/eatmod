@@ -13,7 +13,7 @@ exports.getOrCreate = async (profile, cb) => {
                     provider: provider,
                     email: '',
                     password: '',
-                    registered_date: new Date() 
+                    registered_date: new Date()
                 }).into('users');
 
                 cb(null, profile);

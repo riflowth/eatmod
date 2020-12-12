@@ -86,10 +86,3 @@ exports.deleteReview = async (req, res) => {
         }
     }
 };
-
-exports.getShopLink = async (req, res) => {
-    let id = req.body.id;
-    Menu.getShopLinkByMenuId(id);
-
-    res.status(200).json({ success: true });
-}
