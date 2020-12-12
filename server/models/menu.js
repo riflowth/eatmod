@@ -20,8 +20,6 @@ exports.findMenusById = async (id) => {
 
 exports.findLastId = async (req, res) => {
     let lastId = await knex('foods').max('id');
-   // lastId = JSON.parse(JSON.stringify(lastId[0]));
-    //return Object.values(JSON.parse(JSON.stringify(lastId[0])))[0];
     return await this.convertRawDataToValue(lastId)
 }
 
