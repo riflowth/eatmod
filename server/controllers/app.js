@@ -2,24 +2,25 @@ const knex = require('../database/knex');
 const Shop = require('../models/shop')
 const Menu = require('../models/menu');
 const User = require('../models/user');
+const Instagram = require('../models/instagram')
 
 exports.getIndex = async (req, res) => {
     let shops = await Shop.getShops();
     let randomShops = [];
+    let instagramFeeds = Instagram.getFeed();
     for(let i = 0; i < 4; i++){
         do {
             randomShops[i] = shops[Math.floor(Math.random() * shops.length)];
         } while (new Set(randomShops).size != randomShops.length);
     }
-
     await fillShopsInformation(randomShops);
     let randomMenus = await Menu.getRandomMenuImages();
-
     res.render(
         'index', {
             user: req.isAuthenticated() ? await User.getById(req.user) : '',
             recommendMenus: randomMenus,
-            recommendShops: randomShops
+            recommendShops: randomShops,
+            instagramFeeds: instagramFeeds
         }
     );
 };
@@ -98,5 +99,3 @@ async function fillShopsInformation(shops){
         shops[i].imgUrl = `../assets/images/shops/${shops[i].id}.jpg` 
     }
 }
-
-
