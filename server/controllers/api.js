@@ -30,13 +30,13 @@ exports.changeFoodData = (req, res) => {
 };
 
 exports.updateReview = async (req, res) => {
-    let { review, rating, shopId } = req.body;
+    let { title, review, rating, date, foodId, shopId } = req.body; 
     let userId = req.user;
 
     let findReview;
     try {
         findReview = await Shop.getReview(userId, shopId);
-        await Shop.updateReview(rating, userId, review, shopId);
+        await Shop.updateReview(title, review, rating, date, foodId, userId, shopId);
         res.status(200).json({ success: true });
     } catch {
         if ( findReview == null){
@@ -48,13 +48,13 @@ exports.updateReview = async (req, res) => {
 };
 
 exports.writeReview = async (req, res) => {
-    let { review, rating, shopId } = req.body;
+    let { title, review, rating, date, foodId, shopId } = req.body;
     let userId = req.user;
 
     let findShop;
     try{
         findShop = await Shop.getShop(shopId);
-        await Shop.writeReview(rating,userId, review, shopId);
+        await Shop.writeReview(title, review, rating, date, foodId, userId, shopId);
         res.status(201).json({ success: true });
     } catch {  
         if (findShop == null){

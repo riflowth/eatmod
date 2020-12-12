@@ -11,24 +11,32 @@ exports.getShop = async (id) => {
 }
 
 exports.getReviews = async (shopId) => {
-    let reviews = await knex.select('rating', 'review').from('reviews').where({ shop_id: shopId });
+    let reviews = await knex.select('rating', 'review','title','date','food_id','user_id').from('reviews').where({ shop_id: shopId });
     return JSON.parse(JSON.stringify(reviews));
 }
 
-exports.writeReview = async (rating, userId, review, shopId) => {
+exports.writeReview = async (title, review, rating, date, foodId, userId, shopId) => {
     let id = await knex.insert({
-        rating: rating,
-        user_id: userId,
+        title: title,
         review: review,
+        rating: rating,
+        date: date,
+        food_id: foodId,
+        user_id: userId,
         shop_id: shopId
     }).into('reviews');
     return id;
 }
 
-exports.updateReview = async (rating, userId, review, shopId) => {
+exports.updateReview = async (title, review, rating, date, foodId, userId, shopId) => {
     let id = await knex('reviews').update({
+        title: title,
+        review: review,
         rating: rating,
-        review: review
+        date: date,
+        food_id: foodId,
+        user_id: userId,
+        shop_id: shopId
     }).where({ user_id: userId, shop_id: shopId });
     return id;
 }
