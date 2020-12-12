@@ -45,6 +45,8 @@ exports.getShop = async (req, res) => {
             reviews: reviews.length,
             openTime: shop.open.slice(0, 5),
             closeTime: shop.close.slice(0, 5),
+            minPrice: shop.minPrice,
+            maxPrice: shop.maxPrice,
             menuImages: await Menu.getRecomMenuImagesByShopId(shop.id)
         });
     } catch {
@@ -105,10 +107,11 @@ function findSumRating(reviews) {
 
 async function fillShopsInformation(shops) {
     for (let i = 0; i < shops.length; i++) {
-
+        let price = await Menu.findPriceRangeByShopId(shops[i].id)
         let reviews = await Shop.getReviews(shops[i].id);
         let rating = 0;
-
+        let price_min = price[0]
+        let price_max = price[1]
         if (reviews.length != 0) {
             for (review of reviews) {
                 rating = rating + review.rating;
@@ -120,6 +123,8 @@ async function fillShopsInformation(shops) {
         shops[i].review = reviews.length;
         shops[i].reviewUrl = `/shop/${shops[i].id}`;
         shops[i].imgUrl = `../assets/images/shops/${shops[i].id}.jpg`
+        shops[i].minPrice = price_min,
+        shops[i].maxPrice = price_max
     }
 }
 
