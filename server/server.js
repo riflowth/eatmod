@@ -19,6 +19,7 @@ knex.raw('select 0').catch(err => {
 });
 
 const KnexSessionStore = require('connect-session-knex')(session);
+const Instagram = require('./models/instagram');
 
 const app = express();
 const port = (process.env.PORT || 8080);
@@ -52,6 +53,8 @@ app.use(passport.session());
 app.use('/', appRoute);
 app.use('/api', apiRoute);
 app.use('/auth', authRoute);
+
+Instagram.initialize();
 
 // Error Handler
 app.use((req, res) => {
