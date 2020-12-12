@@ -1,16 +1,6 @@
 const Shop = require('../models/shop');
 const Menu = require('../models/menu');
 
-exports.writeReview = (req, res) => {
-    let review = req.body.review;
-    let userId = 1;
-    let rating = req.body.rating;
-    let shopId = req.body.shopId;
-    Shop.writeReview(rating,userId,review,shopId);
-    
-    res.status(201).json({ success: true });
-};
-
 exports.addFoodData = (req, res) => {
     let id = req.body.id;
     let name = req.body.name;
@@ -39,30 +29,56 @@ exports.changeFoodData = (req, res) => {
     res.status(201).json({ success: true });
 };
 
-exports.writeReview = (req, res) => {
-    let review = req.body.review;
-    let userId = 1;
-    let rating = req.body.rating;
-    let shopId = req.body.shopId;
-    Shop.writeReview(rating, userId, review, shopId);
-    
-    res.status(201).json({ success: true });
+exports.updateReview = async (req, res) => {
+    let { review, rating, shopId } = req.body;
+    let userId = req.user;
+
+    let findReview;
+    try {
+        findReview = await Shop.getReview(userId, shopId);
+        await Shop.updateReview(rating, userId, review, shopId);
+        res.status(200).json({ success: true });
+    } catch {
+        if ( findReview == null){
+            res.status(404).json({ success: false });
+        } else {
+            res.status(500).json({ success: false });
+        }
+    }
 };
 
-exports.updateReview = (req, res) => {
-    let review = req.body.review;
-    let userId = 1;
-    let rating = req.body.rating;
-    let shopId = req.body.shopId;
-    Shop.updateReview(rating, userId, review, shopId);
+exports.writeReview = async (req, res) => {
+    let { review, rating, shopId } = req.body;
+    let userId = req.user;
 
-    res.status(200).json({ success: true });
-}
+    let findShop;
+    try{
+        findShop = await Shop.getShop(shopId);
+        await Shop.writeReview(rating,userId, review, shopId);
+        res.status(201).json({ success: true });
+    } catch {  
+        if (findShop == null){
+            res.status(404).json({ success: false });
+        } else {
+            res.status(500).json({ success: false });
+        }
+    }
+};
 
-exports.deleteReview = (req, res) => {
-    let shopId = req.body.shopId;
-    let userId = 1;
-    Shop.deleteReview(userId, shopId);
+exports.deleteReview = async (req, res) => {
+    let { shopId } = req.body;
+    let userId = req.user;
     
-    res.status(200).json({ success: true });
-}
+    let findReview;
+    try{
+        findReview = await Shop.getReview(userId, shopId);
+        await Shop.deleteReview(userId, shopId);
+        res.status(200).json({ success: true });
+    } catch {  
+        if (findReview == null){
+            res.status(404).json({ success: false });
+        } else {
+            res.status(500).json({ success: false });
+        }
+    }
+};

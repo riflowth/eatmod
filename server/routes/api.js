@@ -16,7 +16,7 @@ router.post(
     authMiddleware.isAuthenticated,
     apiController.writeReview
 );
-  
+
 router.put(
     '/review',
     authMiddleware.isAuthenticated,
