@@ -30,10 +30,8 @@ exports.changeFoodData = (req, res) => {
 };
 
 exports.updateReview = async (req, res) => {
-    let { review } = req.body;
-    let { userId } = req.body;
-    let { rating } = req.body;
-    let { shopId } = req.body;
+    let { review, rating, shopId } = req.body;
+    let userId = req.user;
 
     let findReview;
     try {
@@ -50,10 +48,8 @@ exports.updateReview = async (req, res) => {
 };
 
 exports.writeReview = async (req, res) => {
-    let { review } = req.body;
-    let { userId } = req.body;
-    let { rating } = req.body;
-    let { shopId } = req.body;
+    let { review, rating, shopId } = req.body;
+    let userId = req.user;
 
     let findShop;
     try{
@@ -71,7 +67,7 @@ exports.writeReview = async (req, res) => {
 
 exports.deleteReview = async (req, res) => {
     let { shopId } = req.body;
-    let { userId } = req.body;
+    let userId = req.user;
     
     let findReview;
     try{
