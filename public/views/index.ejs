@@ -12,7 +12,7 @@
                         <h1 class="mb-0 display-5 font-weight-normal">กินอะไรดี ที่มอดังย่านบางมด?</h1>
                     </blockquote>
                     <div class="col-lg-4 text-center mx-auto mt-4">
-                        <button class="btn btn-lg btn-grad-primary btn-block rounded-0 rounded-shadow">ค้นหาเลย 🔍</button>
+                        <button class="btn btn-lg btn-grad-primary btn-block rounded-0 rounded-shadow" data-toggle="modal" data-target="#findMenu">ค้นหาเลย 🔍</button>
                     </div>
                 </div>
             </div>
@@ -103,6 +103,80 @@
             </div>
         </div>
     </section>
+
+    <div id="findMenu" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="findMenu-form">
+                    <div class="modal-header">
+                        <h5 class="modal-title">ค้นหาเมนูที่ตรงใจคุณ!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="form-group mb-4">
+                            <h6 class="text-muted">ประเภทเนื้อ</h6>
+                            <div class="input-group justify-content-center">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="findmeattype1" name="findmeattype" value="หมู" class="custom-control-input">
+                                    <label class="custom-control-label" for="findmeattype1">หมู</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="findmeattype2" name="findmeattype" value="ไก่" class="custom-control-input">
+                                    <label class="custom-control-label" for="findmeattype2">ไก่</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="findmeattype3" name="findmeattype" value="ปลา" class="custom-control-input">
+                                    <label class="custom-control-label" for="findmeattype3">ปลา</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <h6 class="text-muted">ประเภทเมนู</h6>
+                            <div class="input-group justify-content-center">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="findfoodtype1" name="findfoodtype" value="ข้าว" class="custom-control-input">
+                                    <label class="custom-control-label" for="findfoodtype1">ข้าว</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="findfoodtype2" name="findfoodtype" value="ก๋วยเตี๋ยว" class="custom-control-input">
+                                    <label class="custom-control-label" for="findfoodtype2">ก๋วยเตี๋ยว</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="findfoodtype3" name="findfoodtype" value="น้ำ" class="custom-control-input">
+                                    <label class="custom-control-label" for="findfoodtype3">น้ำ</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="findfoodtype4" name="findfoodtype" value="กาแฟ" class="custom-control-input">
+                                    <label class="custom-control-label" for="findfoodtype4">กาแฟ</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <h6 class="text-muted">อาหารฮาลาลหรือไม่</h6>
+                            <div class="input-group justify-content-center">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="findhalal1" name="findhalal" value="" class="custom-control-input">
+                                    <label class="custom-control-label" for="findhalal1">ไม่ฮาลาล</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="findhalal2" name="findhalal" value="ฮาลาล" class="custom-control-input">
+                                    <label class="custom-control-label" for="findhalal2">ฮาลาล</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer py-1">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">ยกเลิก</button>
+                        <button type="submit" class="btn btn-primary">ค้นหา</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <%- include('includes/footer') %>
 </body>

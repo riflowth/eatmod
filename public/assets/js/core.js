@@ -40,4 +40,40 @@ $(function() {
 
         });
     });
+
+    $('#findMenu-form').on('submit', function(e) {
+        e.preventDefault();
+
+        let rawData = $(this).serialize();
+        if (!rawData) {
+            Swal.fire({
+                title: 'คำเตือน!',
+                text: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                icon: 'warning',
+                confirmButtonColor: '#e94a26',
+            });
+            return;
+        }
+
+        let formData = JSON.parse('{"' + decodeURI(rawData)
+                                    .replace(/"/g, '\\"')
+                                    .replace(/&/g, '","')
+                                    .replace(/=/g,'":"') + '"}');
+        
+        if (!formData.findfoodtype || !formData.findmeattype) {
+            Swal.fire({
+                title: 'คำเตือน!',
+                text: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                icon: 'warning',
+                confirmButtonColor: '#e94a26',
+            });
+        }
+
+        if (formData.findhalal == 'ฮาลาล') {
+            window.location.href = `/food?tag=${formData.findfoodtype},${formData.findmeattype},ฮาลาล`;
+        } else {
+            window.location.href = `/food?tag=${formData.findfoodtype},${formData.findmeattype}`;
+        }
+
+    });
 });
