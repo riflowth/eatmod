@@ -12,37 +12,49 @@ for(let i = 0; i < 4; i++){
 
 async function getInstagram() {
     try {
-        let topHashTag = await client.getPhotosByHashtag({ hashtag: 'eat', first: 4});
+        let topHashTag = await client.getPhotosByHashtag({ hashtag: 'eatmod'});
         if (Object.keys(new Object(topHashTag)).length != 0) {
             topHashTag = topHashTag.hashtag.edge_hashtag_to_media.edges;
             topHashTag.forEach((post, i) => {
                 instagramFeeds[i] = { 
                     imgUrl: post.node.thumbnail_src,
-                    originUrl: `https://www.instagram.com/p/${post.node.shortcode}/`
+                    originUrl: `https://www.instagram.com/p/${post.node.shortcode}/`,
+                    timestamp: post.node.taken_at_timestamp
                 }
             })
+            instagramFeeds = instagramFeeds.filter((feed) => {
+                return ((Date.now() / 1000 - feed.timestamp) / 3600 / 24 / 30 ) <= 2;
+            });
+            instagramFeeds = instagramFeeds.slice(0,12);
         } else {
-            return 0;
+            throw 1;
         }
     } catch {
         try {
-            let topHashTag = await client.getMediaFeedByHashtag({ hashtag: 'eat'});
+            let topHashTag = await client.getMediaFeedByHashtag({ hashtag: 'eatmod'});
             if (Object.keys(new Object(topHashTag)).length != 0) {
                 topHashTag = topHashTag.edge_hashtag_to_media.edges;
                 topHashTag.forEach((post, i) => {
                     instagramFeeds[i] = { 
                         imgUrl: post.node.thumbnail_src,
-                        originUrl: `https://www.instagram.com/p/${post.node.shortcode}/`
+                        originUrl: `https://www.instagram.com/p/${post.node.shortcode}/`,
+                        timestamp: post.node.taken_at_timestamp
                     }
                 })
+                instagramFeeds = instagramFeeds.filter((feed) => {
+                   return ((Date.now() / 1000 - feed.timestamp) / 3600 / 24 / 30 ) <= 2;
+                });
+                instagramFeeds = instagramFeeds.slice(0,12);
             } else {
-                return 0;
+                throw 1;
             }
         } catch {
             return 0;
         }
     }
 }
+
+
 
 exports.initialize = async () => {
     await getInstagram();
