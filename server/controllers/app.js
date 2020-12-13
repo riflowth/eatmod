@@ -31,6 +31,7 @@ exports.getIndex = async (req, res) => {
 
 exports.getShop = async (req, res) => {
     const { id } = req.params;
+    let myId = req.user;
 
     try {
         let shop = await Shop.getShop(id);
@@ -42,13 +43,23 @@ exports.getShop = async (req, res) => {
             ratingSum = findSumRating(reviews);
             rating = Math.floor(ratingSum / reviews.length);
         }
-
-        reviews.forEach(async (review) => {
+        reviews.sort((a, b) => {
+            return (new Date(b.date).getTime()) - (new Date(a.date).getTime());
+        })
+        for(review of reviews){
             let recommend = await Menu.findMenusById([review.food_id]);
-            review.recommend = recommend[0].name;
+            review.recommend = recommend.length > 0 ? recommend[0].name: 'ไม่มี';
             user = await User.getById(review.user_id);
             review.name = user.display_name;
             review.date = moment(review.date).format('ll');
+            if (review.user_id == myId) {
+                review.mine = 1;
+            } else {
+                review.mine = 0;
+            }
+        }
+        reviews.sort((a, b) => {
+            return b.mine - a.mine; 
         })
 
         let price = await Menu.findPriceRangeByShopId(shop.id);
