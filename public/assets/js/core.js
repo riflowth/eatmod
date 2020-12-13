@@ -12,7 +12,7 @@ $(function() {
             url: '/api/review',
             method: 'POST',
             dataType: 'JSON',
-            data: $(this).serialize() + '&rating=5'
+            data: $(this).serialize()
         }).done((res) => {
             Swal.fire({
                 title: 'คุณแน่ใจหรือไม่?',
@@ -118,5 +118,46 @@ $(function() {
             $('#findmeattype').show();
             $('#meattype-pork').hide();
         }
+    });
+
+    $('#star-1').on('click', function() {
+        $('#star-1').addClass('text-secondary');
+        $('#star-2').removeClass('text-secondary');
+        $('#star-3').removeClass('text-secondary');
+        $('#star-4').removeClass('text-secondary');
+        $('#star-5').removeClass('text-secondary');
+        $('#rating-input').val(1);
+    });
+    $('#star-2').on('click', function() {
+        $('#star-1').addClass('text-secondary');
+        $('#star-2').addClass('text-secondary');
+        $('#star-3').removeClass('text-secondary');
+        $('#star-4').removeClass('text-secondary');
+        $('#star-5').removeClass('text-secondary');
+        $('#rating-input').val(2);
+    });
+    $('#star-3').on('click', function() {
+        $('#star-1').addClass('text-secondary');
+        $('#star-2').addClass('text-secondary');
+        $('#star-3').addClass('text-secondary');
+        $('#star-4').removeClass('text-secondary');
+        $('#star-5').removeClass('text-secondary');
+        $('#rating-input').val(3);
+    });
+    $('#star-4').on('click', function() {
+        $('#star-1').addClass('text-secondary');
+        $('#star-2').addClass('text-secondary');
+        $('#star-3').addClass('text-secondary');
+        $('#star-4').addClass('text-secondary');
+        $('#star-5').removeClass('text-secondary');
+        $('#rating-input').val(4);
+    });
+    $('#star-5').on('click', function() {
+        $('#star-1').addClass('text-secondary');
+        $('#star-2').addClass('text-secondary');
+        $('#star-3').addClass('text-secondary');
+        $('#star-4').addClass('text-secondary');
+        $('#star-5').addClass('text-secondary');
+        $('#rating-input').val(5);
     });
 });
