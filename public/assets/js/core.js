@@ -3,16 +3,27 @@ $(function() {
         e.preventDefault();
         let title = $('#review-title');
         let review = $('#review-description');
+        let reviewId = $('#save-review').val(); // For edit review
 
         if (!title.val()) title.addClass('is-invalid');
         if (!review.val()) review.addClass('is-invalid');
         if (!review.val() || !review.val()) return;
+        if (!$('#rating-input').val()) {
+            Swal.fire({
+                title: 'ฮั่นแน่!?',
+                text: 'รีวิวอย่าลืมให้ดาวด้วยนะ',
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#e94a26'
+            });
+            return;
+        }
 
         $.ajax({
             url: '/api/review',
-            method: 'POST',
+            method: (!reviewId) ? 'POST' : 'PUT',
             dataType: 'JSON',
-            data: $(this).serialize()
+            data: (!reviewId) ? $(this).serialize() : $(this).serialize() + '&id=' + reviewId
         }).done((res) => {
             Swal.fire({
                 title: 'คุณแน่ใจหรือไม่?',
@@ -159,5 +170,55 @@ $(function() {
         $('#star-4').addClass('text-secondary');
         $('#star-5').addClass('text-secondary');
         $('#rating-input').val(5);
+    });
+
+    $('.delete-review').on('click', function() {
+        let shopId = $(this).data('review-id');
+
+        $.ajax({
+            url: '/api/review',
+            method: 'DELETE',
+            dataType: 'JSON',
+            data: { id: shopId }
+        }).done((res) => {
+            Swal.fire({
+                title: 'คุณแน่ใจหรือไม่?',
+                text: 'คุณจะไม่สามารถกู้คืนข้อมูลที่คุณเขียนรีวิวนี้ได้อีก',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e94a26',
+                cancelButtonColor: '#dae0e5',
+                confirmButtonText: 'ลบ',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'ลบสำเร็จ!',
+                        text: 'ระบบได้ลบรีวิวของคุณเรียบร้อย',
+                        icon: 'success',
+                        showConfirmButton: false
+                    });
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                }
+            });
+        }).fail((err) => {
+
+        });
+    });
+
+    $('.edit-review').on('click', function() {
+        let reviewId = $(this).data('review-id')
+        let rating = $(this).data('rating');
+        let menu = $(this).data('menu');
+        let title = $(this).data('title');
+        let review = $(this).data('review');
+
+        $('#review-title').val(title)
+        $('#review-description').val(review);
+        $('#reivew-recommendMenu').val(menu);
+
+        $('#save-review').val(reviewId);
     });
 });

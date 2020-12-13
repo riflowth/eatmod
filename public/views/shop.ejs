@@ -79,11 +79,21 @@
                         reviews.forEach((review) => {
                     %>
                         <div class="col-lg-12 mt-4">
-                            <div class="card shadow">
+                            <div class="card shadow <%= (review.mine) ? 'border-primary' : 'border-0' %>">
                                 <div class="card-body">
                                     <div class="d-flex flex-row align-items-center justify-content-between">
                                         <small><%= review.name %></small>
-                                        <small class="text-muted"><%= review.date %></small>
+                                        <small class="text-muted"><%= review.date %> 
+                                            <% if (review.mine) { %>
+                                            <div class="btn-group">
+                                                <button type="buton" class="btn pr-0 ml-2" data-toggle="dropdown"><i class="h6 fas fa-edit"></i></button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item edit-review" data-review-id="<%= review.id %>" data-rating="<%= review.rating %>" data-menu="<%= review.food_id %>" data-title="<%= review.title %>" data-review="<%= review.review %>" data-toggle="modal" data-target="#reviewModal"><i class="fas fa-pen-square"></i> แก้ไขรีวิว</a>
+                                                    <a href="#" class="dropdown-item delete-review" data-review-id="<%= review.id %>"><i class="fas fa-trash-alt text-danger"></i> ลบรีวิว</a>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                        </small>
                                     </div>
                                     <div class="mt-1 mb-0">
                                         <span>
@@ -151,7 +161,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">ยกเลิก</button>
-                        <button type="submit" class="btn btn-primary">บันทึกรีวิว</button>
+                        <button id="save-review" type="submit" class="btn btn-primary">บันทึกรีวิว</button>
                     </div>
                 </form>
             </div>

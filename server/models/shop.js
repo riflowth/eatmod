@@ -11,7 +11,7 @@ exports.getShop = async (id) => {
 }
 
 exports.getReviews = async (shopId) => {
-    let reviews = await knex.select('rating', 'review','title','date','food_id','user_id').from('reviews').where({ shop_id: shopId });
+    let reviews = await knex.select('id', 'rating', 'review','title','date','food_id','user_id').from('reviews').where({ shop_id: shopId });
     return JSON.parse(JSON.stringify(reviews));
 }
 
