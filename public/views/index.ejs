@@ -134,55 +134,84 @@
                     </div>
                     <div class="modal-body text-center">
                         <div class="form-group mb-4">
-                            <h6 class="text-muted">ประเภทเนื้อ</h6>
-                            <div class="input-group justify-content-center">
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="findmeattype1" name="findmeattype" value="หมู" class="custom-control-input">
-                                    <label class="custom-control-label" for="findmeattype1">หมู</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="findmeattype2" name="findmeattype" value="ไก่" class="custom-control-input">
-                                    <label class="custom-control-label" for="findmeattype2">ไก่</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="findmeattype3" name="findmeattype" value="ปลา" class="custom-control-input">
-                                    <label class="custom-control-label" for="findmeattype3">ปลา</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group mb-4">
                             <h6 class="text-muted">ประเภทเมนู</h6>
                             <div class="input-group justify-content-center">
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="findfoodtype1" name="findfoodtype" value="ข้าว" class="custom-control-input">
-                                    <label class="custom-control-label" for="findfoodtype1">ข้าว</label>
+                                    <input type="radio" id="findtype-food" name="findtype" value="อาหาร" class="custom-control-input" autocomplete="off">
+                                    <label class="custom-control-label" for="findtype-food">อาหาร</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="findfoodtype2" name="findfoodtype" value="ก๋วยเตี๋ยว" class="custom-control-input">
-                                    <label class="custom-control-label" for="findfoodtype2">ก๋วยเตี๋ยว</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="findfoodtype3" name="findfoodtype" value="น้ำ" class="custom-control-input">
-                                    <label class="custom-control-label" for="findfoodtype3">น้ำ</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="findfoodtype4" name="findfoodtype" value="กาแฟ" class="custom-control-input">
-                                    <label class="custom-control-label" for="findfoodtype4">กาแฟ</label>
+                                    <input type="radio" id="findtype-beverage" name="findtype" value="เครื่องดื่ม" class="custom-control-input" autocomplete="off">
+                                    <label class="custom-control-label" for="findtype-beverage">เครื่องดื่ม</label>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <h6 class="text-muted">อาหารฮาลาลหรือไม่</h6>
-                            <div class="input-group justify-content-center">
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="findhalal1" name="findhalal" value="" class="custom-control-input">
-                                    <label class="custom-control-label" for="findhalal1">ไม่ฮาลาล</label>
+                        <div id="findtype-form" style="display: none;">
+                            <div class="form-group mb-4">
+                                <h6 class="text-muted">ประเภทเมนู</h6>
+                                <div class="input-group justify-content-center">
+                                    <div id="findtype-food-selector" style="display: none;">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="findfoodtype1" name="findfoodtype" value="ข้าว" class="custom-control-input" autocomplete="off">
+                                            <label class="custom-control-label" for="findfoodtype1">ข้าว</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="findfoodtype2" name="findfoodtype" value="เส้น" class="custom-control-input" autocomplete="off">
+                                            <label class="custom-control-label" for="findfoodtype2">เส้น</label>
+                                        </div>
+                                    </div>
+                                    <div id="findtype-beverage-selector" style="display: none;">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="findfoodtype3" name="findfoodtype" value="ชา" class="custom-control-input" autocomplete="off">
+                                            <label class="custom-control-label" for="findfoodtype3">ชา</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="findfoodtype4" name="findfoodtype" value="กาแฟ" class="custom-control-input" autocomplete="off">
+                                            <label class="custom-control-label" for="findfoodtype4">กาแฟ</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="findfoodtype5" name="findfoodtype" value="นม" class="custom-control-input" autocomplete="off">
+                                            <label class="custom-control-label" for="findfoodtype5">นม</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="findfoodtype6" name="findfoodtype" value="น้ำผลไม้" class="custom-control-input" autocomplete="off">
+                                            <label class="custom-control-label" for="findfoodtype6">น้ำผลไม้</label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="findhalal2" name="findhalal" value="ฮาลาล" class="custom-control-input">
-                                    <label class="custom-control-label" for="findhalal2">ฮาลาล</label>
+                            </div>
+                        </div>
+                        <div id="findhalal" style="display: none;">
+                            <div class="form-group">
+                                <h6 class="text-muted">อาหารฮาลาลหรือไม่</h6>
+                                <div class="input-group justify-content-center">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="findhalal1" name="findhalal" value="" class="custom-control-input" autocomplete="off">
+                                        <label class="custom-control-label" for="findhalal1">ไม่ฮาลาล</label>
+                                    </div>
+                                    <div id="halal-checkbox" class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="findhalal2" name="findhalal" value="ฮาลาล" class="custom-control-input" autocomplete="off">
+                                        <label class="custom-control-label" for="findhalal2">ฮาลาล</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="findmeattype" style="display: none;">
+                            <div class="form-group mb-4">
+                                <h6 class="text-muted">ประเภทเนื้อ</h6>
+                                <div class="input-group justify-content-center">
+                                    <div id="meattype-pork" class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="findmeattype1" name="findmeattype" value="หมู" class="custom-control-input">
+                                        <label class="custom-control-label" for="findmeattype1">หมู</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="findmeattype2" name="findmeattype" value="ไก่" class="custom-control-input">
+                                        <label class="custom-control-label" for="findmeattype2">ไก่</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="findmeattype3" name="findmeattype" value="ปลา" class="custom-control-input">
+                                        <label class="custom-control-label" for="findmeattype3">ปลา</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

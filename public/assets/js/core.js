@@ -59,8 +59,9 @@ $(function() {
                                     .replace(/"/g, '\\"')
                                     .replace(/&/g, '","')
                                     .replace(/=/g,'":"') + '"}');
+                                    console.log(formData);
         
-        if (!formData.findfoodtype || !formData.findmeattype) {
+        if (!formData.findfoodtype) {
             Swal.fire({
                 title: 'คำเตือน!',
                 text: 'กรุณากรอกข้อมูลให้ครบถ้วน',
@@ -70,11 +71,52 @@ $(function() {
             return;
         }
 
-        if (formData.findhalal == 'ฮาลาล') {
-            window.location.href = `/food?tag=${formData.findfoodtype},${formData.findmeattype},ฮาลาล`;
+        if (formData.findtype == 'อาหาร') {
+            if (formData.findhalal == 'ฮาลาล') {
+                window.location.href = `/food?tag=${formData.findfoodtype},${formData.findmeattype},ฮาลาล`;
+            } else {
+                window.location.href = `/food?tag=${formData.findfoodtype},${formData.findmeattype}`;
+            }
         } else {
-            window.location.href = `/food?tag=${formData.findfoodtype},${formData.findmeattype}`;
+            window.location.href = `/food?tag=${formData.findfoodtype}`;
         }
+    });
 
+    $('#findtype-food').on('click', function() {
+        if ($(this).is(':checked')) {
+            $('#findtype-form').show();
+            $('#findtype-beverage-selector').hide();
+            $('#findtype-food-selector').show();
+        }
+    });
+
+    $('#findtype-beverage').on('click', function() {
+        if ($(this).is(':checked')) {
+            $('#findtype-form').show();
+            $('#findtype-food-selector').hide();
+            $('#findtype-beverage-selector').show();
+        }
+    });
+
+    $('#findfoodtype1').on('click', function() {
+        $('#findhalal').show();
+    });
+
+    $('#findfoodtype2').on('click', function() {
+        $('#findhalal').show();
+    });
+
+    $('#findhalal1').on('click', function() {
+        if ($(this).is(':checked')) {
+            $('#findmeattype').show();
+            $('#meattype-pork').show();
+        }
+    });
+
+    $('#findhalal2').on('click', function() {
+        if ($(this).is(':checked')) {
+            $('#findmeattype').show();
+            $('#meattype-pork').hide();
+        }
     });
 });
