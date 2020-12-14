@@ -21,7 +21,7 @@
             <% foods.forEach((food) => { %>
                 <div class="col-6 col-md-4 col-lg-3 mb-4">
                     <div class="card shadow-sm h-100">
-                        <img class="card-img" src="<%= food.imgUrl %>" style="object-fit: cover" width="300px" height="200px">
+                        <a href="/shop/<%= food.shopId %>"><img class="card-img" src="<%= food.imgUrl %>" style="object-fit: cover" width="300px" height="200px"></a>
                         <div class="card-body">
                             <h5 class="card-title text-primary mb-0"><%= food.name %></h5>
                             <p class="card-text text-muted"><%= food.type %></p>
