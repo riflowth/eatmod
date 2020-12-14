@@ -24,8 +24,6 @@ exports.getIndex = async (req, res) => {
         menu.data = menuData[0];
     }
 
-    console.log(randomMenus);
-
     res.render(
         'index', {
             user: req.isAuthenticated() ? await User.getById(req.user) : '',

@@ -54,7 +54,7 @@ app.use('/', appRoute);
 app.use('/api', apiRoute);
 app.use('/auth', authRoute);
 
-//Instagram.initialize();
+Instagram.initialize();
 
 // Error Handler
 app.use((req, res) => {
