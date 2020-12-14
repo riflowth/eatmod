@@ -17,7 +17,14 @@ exports.getIndex = async (req, res) => {
         } while (new Set(randomShops).size != randomShops.length);
     }
     await fillShopsInformation(randomShops);
+
     let randomMenus = await Menu.getRandomMenuImages();
+    for (menu of randomMenus) {
+        let menuData = await Menu.findMenusById([menu.menu_id]);
+        menu.data = menuData[0];
+    }
+
+    console.log(randomMenus);
 
     res.render(
         'index', {

@@ -39,6 +39,9 @@
                                     <a href="<%= menu.shop_url %>">
                                         <div class="position-relative">
                                             <img src="<%= menu.image_url %>" style="object-fit: cover;" width="160rem" height="160rem">
+                                            <span class="badge badge-primary" style="position: absolute; right: 0; left: 0; bottom: 0; margin: 0.5rem 0.5rem 0.5rem 0.5rem; font-size: 1.05rem; opacity: 0.75;">
+                                                <small class="text-center"><%= menu.data.name %></small>
+                                            </span>
                                             <div class="overlay"><p class="overlay-text"><i class="fas fa-search"></i> ดูร้าน</p></div>
                                         </div>
                                     </a>
@@ -62,15 +65,16 @@
                     if (typeof(recommendShops) != 'undefined') {
                         recommendShops.forEach((shop) => { 
                 %>
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-6 h-100">
                         <div class="card box-shadow-1 mb-4 mb-lg-4">
                             <img class="card-img-top" src="<%= shop.imgUrl %>" style="object-fit: cover" width="300" height="200" alt="">
                             <div class="card-body">
                                 <h5 class="card-title text-primary mb-1"><%= shop.name %></h5>
-                                <p class="card-text text-muted"><%= shop.type %></p>
+                                <p class="card-text text-muted mb-2"><%= shop.type %></p>
+                                <p class="card-text"><i class="fas fa-map-marker-alt"></i> <%= shop.location %></p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <a href="<%= shop.reviewUrl %>" class="btn btn-primary btn-sm ">อ่านรีวิว</a>
-                                    <small class="text-muted"><i class="far fa-star"></i> <%= shop.rating %> <i class="far fa-comments"></i> <%= shop.review %> รีวิว</small>
+                                    <small><i class="fa fa-star text-secondary"></i> <%= shop.rating %> <i class="fa fa-comments text-primary"></i> <%= shop.review %> รีวิว</small>
                                 </div>
                             </div>
                         </div>

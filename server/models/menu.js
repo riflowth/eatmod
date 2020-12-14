@@ -66,6 +66,7 @@ exports.findShopLinkByMenuId = async (id) => {
 
 exports.findMenuImagesById = async (id) => {
     let image = {
+        menu_id: id,
         shop_url: await this.findShopLinkByMenuId(id),
         image_url: await this.findImageUrlByMenuId(id)
     };
