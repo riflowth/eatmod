@@ -7,7 +7,7 @@ $(function() {
 
         if (!title.val()) title.addClass('is-invalid');
         if (!review.val()) review.addClass('is-invalid');
-        if (!review.val() || !review.val()) return;
+        if (!title.val() || !review.val()) return;
         if (!$('#rating-input').val()) {
             Swal.fire({
                 title: 'ฮั่นแน่!?',
