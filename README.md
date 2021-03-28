@@ -38,5 +38,5 @@ To start developing, you can run the command below in sequence.
 ~/eatmod> npm test
 ```
 
-*(docker) mysql default port: 3306*
+*(docker) mysql default port: 3306* <br>
 *(docker) phpmyadmin default port: 8000*
