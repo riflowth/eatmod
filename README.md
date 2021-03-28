@@ -25,6 +25,8 @@ knex seed:run
 
 > You can install *knex-migration-cli* by type **`npm install -g knex`**
 
+*Before running the seed via Knex, make sure you set the collation in the "eatmod" database to **``utf8_unicode_ci``**.*
+
 ### :computer: For devs
 To start developing, you can run the command below in sequence.
 
@@ -36,5 +38,5 @@ To start developing, you can run the command below in sequence.
 ~/eatmod> npm test
 ```
 
-*(docker) mysql default port: 3306*
+*(docker) mysql default port: 3306* <br>
 *(docker) phpmyadmin default port: 8000*
