@@ -7,14 +7,23 @@ In this project, we are creating a **web application**. Our website offers users
 ### :busts_in_silhouette: Members
 | Name | Role |
 | - | - |
-| `Krid Heprakhone` | Frontend Developer |
+| `Krid Heprakhone` | Fullstack Developer |
 | `Keeratikorn Pukayaporn` | Backend Developer |
 | `Nathee Jaywaree` | Backend Developer |
 | `Natthapon Nuchartwong` | Frontend Developer |
 
 ### :wrench: How to install?
+This application requires **[NodeJS](https://nodejs.org/)** to provide our system, after finishing NodeJS installation you can follow the instruction below to start EatMod web application.
+
 1. Enter **`npm install`** for installing all modules that use in this project.
-2. Use ***knex migration cli*** to migration/seeding the database by use commands below.
+2. Move your currently directory to **`./server`**
+3. Use ***knex migration cli*** to migration/seeding the database.
+
+> You can install *knex-migration-cli* by type **`npm install -g knex`**
+
+*Before running the seed via Knex, make sure you set the collation in the "eatmod" database to **``utf8_unicode_ci``**.*
+
+and then you can do migration/seeding by use commands below.
 ```
 knex migrate:latest
 ```
@@ -23,15 +32,15 @@ and then
 knex seed:run
 ```
 
-> You can install *knex-migration-cli* by type **`npm install -g knex`**
+4. Once the installation completes, now you can view our web application or contribute our application.
 
-*Before running the seed via Knex, make sure you set the collation in the "eatmod" database to **``utf8_unicode_ci``**.*
+Feel free to send us the **[pull request](https://github.com/CPE34-A2/EatMod/pulls)** or if you have found out something work malfunction, we would appreciate it if you could let me know by send us the **[issue ticket](https://github.com/CPE34-A2/EatMod/issues)**.
 
-### :computer: For devs
-To start developing, you can run the command below in sequence.
+### 📎 Cheatsheet
+You can run commands below in sequence to run this web application.
 
 ```
-~/eatmod> npm init
+~/eatmod> npm install
 ~/eatmod/server> docker-compose -p eatmod up -d
 ~/eatmod/server> knex migrate:latest
 ~/eatmod/server> knex seed:run
