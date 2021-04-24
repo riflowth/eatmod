@@ -2,7 +2,7 @@
 CPE101 Engineering Exploration Project
 
 ### :pencil: About
-In this project, we are creating a **web application**. Our website offers users food recommendation around **[KMUTT](https://www.kmutt.ac.th)** university. Users can select food tags to filter out foods as they desire.
+In this project, we are creating a **web application**. Our website offers users food recommendations around **[KMUTT](https://www.kmutt.ac.th)** university. Users can select food tags to filter out foods as they desire.
 
 ### :busts_in_silhouette: Members
 | Name | Role |
@@ -16,14 +16,14 @@ In this project, we are creating a **web application**. Our website offers users
 This application requires **[NodeJS](https://nodejs.org/)** to provide our system, after finishing NodeJS installation you can follow the instruction below to start EatMod web application.
 
 1. Enter **`npm install`** for installing all modules that use in this project.
-2. Move your currently directory to **`./server`**
+2. Move your current directory to **`./server`**
 3. Use ***knex migration cli*** to migration/seeding the database.
 
 > You can install *knex-migration-cli* by type **`npm install -g knex`**
 
 *Before running the seed via Knex, make sure you set the collation in the "eatmod" database to **``utf8_unicode_ci``**.*
 
-and then you can do migration/seeding by use commands below.
+and then you can do migration/seeding by using the commands below.
 ```
 knex migrate:latest
 ```
@@ -32,12 +32,12 @@ and then
 knex seed:run
 ```
 
-4. Once the installation completes, now you can view our web application or contribute our application.
+4. Once the installation completes, now you can view our web application or contribute to our application.
 
-Feel free to send us the **[pull request](https://github.com/CPE34-A2/EatMod/pulls)** or if you have found out something work malfunction, we would appreciate it if you could let me know by send us the **[issue ticket](https://github.com/CPE34-A2/EatMod/issues)**.
+Feel free to send us the **[pull request](https://github.com/CPE34-A2/EatMod/pulls)** or if you have found out something works malfunction, we would appreciate it if you could let me know by sending us the **[issue ticket](https://github.com/CPE34-A2/EatMod/issues)**.
 
 ### 📎 Cheatsheet
-You can run commands below in sequence to run this web application.
+You can run the commands below in sequence to run this web application.
 
 ```
 ~/eatmod> npm install
