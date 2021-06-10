@@ -20,22 +20,22 @@ exports.convertRawDataToObject = async (rawdata) => {
 
 exports.findMenusById = async (id) => {
     let foods = await knex.select().from('foods').whereIn('id', id);
-    return await this.convertRawDataToObject(foods);
+    return this.convertRawDataToObject(foods);
 }
 
 exports.findMenusByshopId = async (shop_id) => {
     let foods = await knex.select().from('foods').whereIn('shop_id', shop_id);
-    return await this.convertRawDataToObject(foods);
+    return this.convertRawDataToObject(foods);
 }
 
 exports.findLastId = async (req, res) => {
     let lastId = await knex('foods').max('id');
-    return await this.convertRawDataToValue(lastId)
+    return this.convertRawDataToValue(lastId)
 }
 
 exports.findShopIdByMenuId = async (id) => {
     let shopId = await knex('foods').select('shop_id').where({ id: id });
-    return await this.convertRawDataToValue(shopId);
+    return this.convertRawDataToValue(shopId);
 }
 
 exports.findPriceRangeByShopId = async (shop_id) => {
@@ -49,7 +49,7 @@ exports.findPriceRangeByShopId = async (shop_id) => {
 
 exports.findMenuIdByShopId = async (shop_id) => {
     let menuId = await knex('foods').select('id').where({ shop_id: shop_id });
-    return await this.convertRawDataToArray(menuId);
+    return this.convertRawDataToArray(menuId);
 }
 
 exports.findImageUrlByMenuId = async (id) => {
@@ -106,8 +106,7 @@ exports.getMenusByTag = async (tag) => {
 }
 
 exports.getAllMenus = async () => {
-    let foods = await knex.select().from('foods');
-    return JSON.parse(JSON.stringify(foods));
+    return knex.select().from('foods');
 }
 
 exports.getAllMenusByShopId = async (shopId) => {
@@ -115,16 +114,9 @@ exports.getAllMenusByShopId = async (shopId) => {
     return JSON.parse(JSON.stringify(foods));
 }
 
-exports.getMenuImagesById = async (id) => {
-    let image = [];
-    image[0] = await this.findImageUrlByMenuId(id);
-    return image;
-}
-
 exports.getRecomMenuImagesByShopId = async (shop_id) => {
-    let shopId = [];
+    let shopId = await this.findMenuIdByShopId(shop_id);
     let recomMenuImages = [];
-    shopId = await this.findMenuIdByShopId(shop_id);
 
     for (let i = 0; i < shopId.length; i++) {
         recomMenuImages[i] = await this.findImageUrlByMenuId(shopId[i]);
@@ -152,24 +144,42 @@ exports.getRandomMenuImages = async (req, res) => {
 }
 
 exports.insertFoodData = async (id, name, type, price, shop_id) => {
-    if (typeof (id) == 'undefined') id = await this.findLastId() + 1;
-    await knex.insert({
+    if (id === undefined) id = await this.findLastId() + 1;
+
+    knex.insert({
         id: id,
         name: name,
         type: type,
         price: price,
         shop_id: shop_id
-    }).into('foods');
+    })
+    .into('foods')
+    .then(row => {
+        console.log(`Insert new food data, it currently has ${row} records`)
+    })
+    .catch(error => {
+        console.error(`Can't insert new food data ${name} id:${id} : ${error}`)
+    });
 }
 
 exports.deleteFoodData = async (id) => {
-    if (id == 0 || typeof (id) == 'undefined') id = await this.findLastId();
-    knex('foods').where({ id: id }).del().then();
+    if (id == 0 || id === undefined) id = await this.findLastId();
+
+    knex('foods')
+        .where({ id: id })
+        .del()
+        .then(() => {
+            console.log(`Delete food data id ${id} successfully`);
+        })
+        .catch(error => {
+            console.error(`Can't delete food data id ${id} : ${error}`);
+        });
 }
 
 exports.updateFoodData = async (id, name, type, price, shop_id) => {
-    if (id == 0 || typeof (id) == 'undefined') id = await this.findLastId();
-    if (typeof (shop_id) == 'undefined') shop_id = await this.findShopIdByMenuId(id);
+    if (id == 0 || id === undefined) id = await this.findLastId();
+    if (shop_id === undefined) shop_id = await this.findShopIdByMenuId(id);
+
     knex('foods')
         .where({ id: id })
         .update({
@@ -177,5 +187,11 @@ exports.updateFoodData = async (id, name, type, price, shop_id) => {
             type: type,
             price: price,
             shop_id: shop_id
-        }).then();
+        })
+        .then(() => {
+            console.log(`Update food data id ${id} successfully`);
+        })
+        .catch(error => {
+            console.error(`Can't update food data id ${id} : ${error}`);
+        })
 }
