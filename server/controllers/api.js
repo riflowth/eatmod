@@ -2,35 +2,25 @@ const Shop = require('../models/shop');
 const Menu = require('../models/menu');
 
 exports.addFoodData = (req, res) => {
-    let id = req.body.id;
-    let name = req.body.name;
-    let type = req.body.type;
-    let price = req.body.price;
-    let shop_id = req.body.shop_id;
+    const { id, name, type, price, shop_id } = req.body;
     Menu.insertFoodData(id, name, type, price, shop_id);
     res.status(201).json({ success: true });
 };
 
 exports.removeFoodData = (req, res) => {
-    let id = req.body.id;
+    const { id } = req.body;
     Menu.deleteFoodData(id);
-  
     res.status(201).json({ success: true });
 };
 
 exports.changeFoodData = (req, res) => {
-    let id = req.body.id;
-    let name = req.body.name;
-    let type = req.body.type;
-    let price = req.body.price;
-    let shop_id = req.body.shop_id;
+    const { id, name, type, price, shop_id } = req.body;
     Menu.updateFoodData(id, name, type, price, shop_id);
-  
     res.status(201).json({ success: true });
 };
 
 exports.updateReview = async (req, res) => {
-    let { id, title, review, rating, foodId } = req.body;
+    const { id, title, review, rating, foodId } = req.body;
 
     let findReview;
     try {
@@ -47,8 +37,8 @@ exports.updateReview = async (req, res) => {
 };
 
 exports.writeReview = async (req, res) => {
-    let { title, review, rating, foodId, shopId } = req.body;
-    let userId = req.user;
+    const { title, review, rating, foodId, shopId } = req.body;
+    const userId = req.user;
 
     let findShop;
     try{
@@ -65,7 +55,7 @@ exports.writeReview = async (req, res) => {
 };
 
 exports.deleteReview = async (req, res) => {
-    let { id } = req.body;
+    const { id } = req.body;
     
     let findReview;
     try{
