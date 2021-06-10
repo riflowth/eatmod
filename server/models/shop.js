@@ -5,46 +5,57 @@ exports.getShops = async () => {
 }
 
 exports.getShop = async (id) => {
-    return knex.select()
+    return knex
+        .select()
         .from('shops')
         .where({ id: id }).first();
 }
 
 exports.getReviews = async (shopId) => {
-    return knex.select('id', 'rating', 'review', 'title', 'date', 'food_id', 'user_id')
+    return knex
+        .select('id', 'rating', 'review', 'title', 'date', 'food_id', 'user_id')
         .from('reviews')
         .where({ shop_id: shopId });
 }
 
 exports.writeReview = async (title, review, rating, date, foodId, userId, shopId) => {
-    return knex.insert({
-        title: title,
-        review: review,
-        rating: rating,
-        date: date,
-        food_id: foodId,
-        user_id: userId,
-        shop_id: shopId
-    }).into('reviews');
+    return knex
+        .insert({
+            title: title,
+            review: review,
+            rating: rating,
+            date: date,
+            food_id: foodId,
+            user_id: userId,
+            shop_id: shopId
+        }).into('reviews');
 }
 
+// TODO: error handling
 exports.updateReview = async (title, review, rating, date, foodId, id) => {
-    await knex('reviews').update({
-        title: title,
-        review: review,
-        rating: rating,
-        date: date,
-        food_id: foodId
-    }).where({ id : id });
+    await knex('reviews')
+        .update({
+            title: title,
+            review: review,
+            rating: rating,
+            date: date,
+            food_id: foodId
+        })
+        .where({ id : id });
 }
 
+// TODO: error handling
 exports.deleteReview = async (id) => {
-    await knex('reviews').del().where({ id: id });
+    await knex('reviews')
+        .del()
+        .where({ id: id });
 }
 
 exports.getReview = async (id) => {
-    let review = await knex('reviews').select('rating', 'review','title','date','food_id','user_id').where({ id: id});
-    return JSON.parse(JSON.stringify(review[0]));
+    return knex('reviews')
+        .select('rating', 'review', 'title', 'date', 'food_id',' user_id')
+        .where({ id: id })
+        .first();
 }
 
 exports.calculateRating = async (reviews) => {
