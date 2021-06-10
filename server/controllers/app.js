@@ -7,21 +7,25 @@ const Instagram = require('../models/instagram');
 const moment = require('moment');
 moment.locale('th');
 
+const MAXIMUM_RANDOM_SHOP = 4;
+
 exports.getIndex = async (req, res) => {
-    let shops = await Shop.getShops();
-    let randomShops = [];
-    let instagramFeeds = Instagram.getFeed();
-    for (let i = 0; i < 4; i++){
+    const shops = await Shop.getShops();
+    const randomShops = [];
+    const instagramFeeds = Instagram.getFeed();
+    
+    // Random without repeating
+    for (let i = 0; i < MAXIMUM_RANDOM_SHOP; i++){
         do {
             randomShops[i] = shops[Math.floor(Math.random() * shops.length)];
         } while (new Set(randomShops).size != randomShops.length);
+        
+        await Shop.fillInformation(randomShops[i]);
     }
-    await fillShopsInformation(randomShops);
 
-    let randomMenus = await Menu.getRandomMenuImages();
-    for (menu of randomMenus) {
-        let menuData = await Menu.findMenusById([menu.menu_id]);
-        menu.data = menuData[0];
+    const randomMenus = await Menu.getRandomMenuImages();
+    for (const menu of randomMenus) {
+        menu.data = (await Menu.findMenusById([menu.menu_id]))[0];
     }
 
     res.render(
@@ -34,40 +38,32 @@ exports.getIndex = async (req, res) => {
     );
 };
 
-exports.getShop = async (req, res) => {
+exports.getShopById = async (req, res) => {
     const { id } = req.params;
-    let myId = req.user;
 
     try {
-        let shop = await Shop.getShop(id);
-        let reviews = await Shop.getReviews(id);
-        let ratingSum = 0;
-        let rating = 0;
-      
-        if (reviews.length != 0) {
-            ratingSum = findSumRating(reviews);
-            rating = Math.floor(ratingSum / reviews.length);
-        }
+        const shop = await Shop.getShop(id);
+        const reviews = await Shop.getReviews(id);
+        const priceRange = await Menu.findPriceRangeByShopId(shop.id);
+        const [rating, ratingSum] = await Shop.calculateRating(reviews);
+
         reviews.sort((a, b) => {
             return (new Date(b.date).getTime()) - (new Date(a.date).getTime());
-        })
-        for(review of reviews){
-            let recommend = await Menu.findMenusById([review.food_id]);
-            review.recommend = recommend.length > 0 ? recommend[0].name: 'ไม่มี';
-            user = await User.getById(review.user_id);
-            review.name = user.display_name;
-            review.date = moment(review.date).format('ll');
-            if (review.user_id == myId) {
-                review.mine = 1;
-            } else {
-                review.mine = 0;
-            }
-        }
-        reviews.sort((a, b) => {
-            return b.mine - a.mine; 
-        })
+        });
 
-        let price = await Menu.findPriceRangeByShopId(shop.id);
+        for (const review of reviews){
+            const recommendMenus = await Menu.findMenusById([review.food_id]);
+            review.recommend = recommendMenus.length > 0 ? recommendMenus[0].name: 'ไม่มี';
+
+            const userId = req.user;
+            const reviewer = await User.getById(review.user_id);
+
+            review.name = reviewer.display_name;
+            review.date = moment(review.date).format('ll');
+            review.mine = (review.user_id == userId);
+        }
+
+        reviews.sort((a, b) => { return b.mine - a.mine; });
 
         res.render('shop', {
             user: req.isAuthenticated() ? await User.getById(req.user) : '',
@@ -80,8 +76,8 @@ exports.getShop = async (req, res) => {
             reviewsCount: reviews.length,
             openTime: shop.open.slice(0, 5),
             closeTime: shop.close.slice(0, 5),
-            minPrice: price[0],
-            maxPrice: price[1],
+            minPrice: priceRange[0],
+            maxPrice: priceRange[1],
             menuImages: await Menu.getRecomMenuImagesByShopId(shop.id),
             menus: await Menu.getAllMenusByShopId(shop.id),
             reviews: reviews
@@ -91,36 +87,38 @@ exports.getShop = async (req, res) => {
     }
 };
 
-exports.getFood = async (req, res) => {
-    let queryTag = req.query.tag;
-    let foods = await Menu.getAllMenus();
+exports.getFoods = async (req, res) => {
+    const queryTag = req.query.tag;
+    let foods;
     
     if (queryTag) {
-        let tag = queryTag.split(',').filter(v => v != '');
+        const tag = queryTag.split(',').filter(v => v != '');
         foods = await Menu.getMenusByTag(tag);
+    } else {
+        foods = await Menu.getAllMenus();
     }
 
-    for (let i = 0; i < foods.length; i++) {
-        let menuId = foods[i].id;
-        let shopId = await Menu.findShopIdByMenuId(menuId);
-        let shopData = await Shop.getShop(shopId);
+    for (const food of foods) {
+        const menuId    = food.id;
+        const shopId    = await Menu.findShopIdByMenuId(menuId);
+        const shopData  = await Shop.getShop(shopId);
 
-        foods[i].imgUrl = await Menu.findImageUrlByMenuId(menuId);
-        foods[i].shopId = shopData.id;
-        foods[i].shopName = shopData.name;
-        foods[i].location = shopData.location;
+        food.imgUrl     = await Menu.findImageUrlByMenuId(menuId);
+        food.shopId     = shopData.id;
+        food.shopName   = shopData.name;
+        food.location   = shopData.location;
     }
 
     res.render('food', {
         user: req.isAuthenticated() ? await User.getById(req.user) : '',
         foods: foods
     });
-}
+};
 
 exports.getShops = async (req, res) => {
-    let shops = await Shop.getShops();
+    const shops = await Shop.getShops();
 
-    await fillShopsInformation(shops);
+    for (const shop of shops) await Shop.fillInformation(shop);
 
     res.render('shops', {
         user: req.isAuthenticated() ? await User.getById(req.user) : '',
@@ -133,30 +131,3 @@ exports.getLogin = async (req, res) => {
         user: req.isAuthenticated() ? await User.getById(req.user) : ''
     });
 };
-
-function findSumRating(reviews) {
-    let ratingSum = 0;
-    for (review of reviews) {
-        ratingSum = ratingSum + review.rating;
-    }
-    return ratingSum;
-}
-
-async function fillShopsInformation(shops) {
-    for (let i = 0; i < shops.length; i++) {
-        let reviews = await Shop.getReviews(shops[i].id);
-        let rating = 0;
-        let ratingSum = 0;
-
-        if (reviews.length != 0) {
-            ratingSum = findSumRating(reviews);
-            rating = Math.floor(ratingSum / reviews.length);
-        }
-
-        shops[i].ratingSum = ratingSum;
-        shops[i].rating = rating;
-        shops[i].review = reviews.length;
-        shops[i].reviewUrl = `/shop/${shops[i].id}`;
-        shops[i].imgUrl = `../assets/images/shops/${shops[i].id}.jpg`;
-    }
-}
