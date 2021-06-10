@@ -11,7 +11,7 @@ router.get(
 
 router.get(
     '/shop/:id',
-    appController.getShop
+    appController.getShopById
 );
 
 router.get(
@@ -21,7 +21,7 @@ router.get(
 
 router.get(
     '/food',
-    appController.getFood
+    appController.getFoods
 );
 
 router.get(
