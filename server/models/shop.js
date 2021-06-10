@@ -1,18 +1,19 @@
 const knex = require('../database/knex');
 
 exports.getShops = async () => {
-    let shops = await knex.select().from('shops');
-    return JSON.parse(JSON.stringify(shops));
+    return knex.select().from('shops');
 }
 
 exports.getShop = async (id) => {
-    let shop = await knex.select().from('shops').where({ id: id });
-    return JSON.parse(JSON.stringify(shop[0]));
+    return knex.select()
+        .from('shops')
+        .where({ id: id }).first();
 }
 
 exports.getReviews = async (shopId) => {
-    let reviews = await knex.select('id', 'rating', 'review','title','date','food_id','user_id').from('reviews').where({ shop_id: shopId });
-    return JSON.parse(JSON.stringify(reviews));
+    return knex.select('id', 'rating', 'review', 'title', 'date', 'food_id', 'user_id')
+        .from('reviews')
+        .where({ shop_id: shopId });
 }
 
 exports.writeReview = async (title, review, rating, date, foodId, userId, shopId) => {
