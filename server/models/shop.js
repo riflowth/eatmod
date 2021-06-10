@@ -16,7 +16,7 @@ exports.getReviews = async (shopId) => {
 }
 
 exports.writeReview = async (title, review, rating, date, foodId, userId, shopId) => {
-    let id = await knex.insert({
+    return knex.insert({
         title: title,
         review: review,
         rating: rating,
@@ -25,7 +25,6 @@ exports.writeReview = async (title, review, rating, date, foodId, userId, shopId
         user_id: userId,
         shop_id: shopId
     }).into('reviews');
-    return id;
 }
 
 exports.updateReview = async (title, review, rating, date, foodId, id) => {
@@ -45,4 +44,24 @@ exports.deleteReview = async (id) => {
 exports.getReview = async (id) => {
     let review = await knex('reviews').select('rating', 'review','title','date','food_id','user_id').where({ id: id});
     return JSON.parse(JSON.stringify(review[0]));
+}
+
+exports.calculateRating = async (reviews) => {
+    if (reviews.length == 0) return [0, 0];
+
+    const ratingSum = reviews.reduce((acc, value) => acc + value.rating, 0);
+    const rating = Math.floor(ratingSum / reviews.length);
+    
+    return [ rating, ratingSum ];
+};
+
+exports.fillInformation = async (shop) => {
+    const reviews = await this.getReviews(shop.id);
+    let [rating, ratingSum] = await this.calculateRating(reviews);
+    
+    shop.ratingSum = ratingSum;
+    shop.rating    = rating;
+    shop.review    = reviews.length;
+    shop.reviewUrl = `/shop/${shop.id}`;
+    shop.imgUrl    = `/assets/images/shops/${shop.id}.jpg`;
 }

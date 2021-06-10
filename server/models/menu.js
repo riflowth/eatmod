@@ -53,24 +53,21 @@ exports.findMenuIdByShopId = async (shop_id) => {
 }
 
 exports.findImageUrlByMenuId = async (id) => {
-    let shop_id = await this.findShopIdByMenuId(id);
-    image_url = `/assets/images/menus/${shop_id}_${id}.jpg`;
-    return image_url;
+    const shopId = await this.findShopIdByMenuId(id);
+    return `/assets/images/menus/${shopId}_${id}.jpg`;;
 };
 
 exports.findShopLinkByMenuId = async (id) => {
-    let shop_id = await this.findShopIdByMenuId(id);
-    let shop_link = `/shop/${shop_id}`;
-    return shop_link;
+    let shopId = await this.findShopIdByMenuId(id);
+    return `/shop/${shopId}`;
 }
 
 exports.findMenuImagesById = async (id) => {
-    let image = {
+    return {
         menu_id: id,
         shop_url: await this.findShopLinkByMenuId(id),
         image_url: await this.findImageUrlByMenuId(id)
     };
-    return image;
 }
 
 exports.findMenuTagByMenuId = async (id) => {
