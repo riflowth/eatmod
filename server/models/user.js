@@ -4,7 +4,7 @@ exports.getOrCreate = async (profile, cb) => {
     const { id, provider, displayName } = profile;
 
     try {
-        let isUserAvailable = await this.findId(id);
+        let isUserAvailable = await this.getById(id, 'id');
         if (!isUserAvailable) {
             try {
                 await knex.insert({
@@ -29,10 +29,9 @@ exports.getOrCreate = async (profile, cb) => {
 };
 
 exports.getById = async (id, data) => {
-    let user = await knex.select(data).from('users').where({ id: id });
-    return JSON.parse(JSON.stringify(user[0]));
-};
-
-exports.findId = async (id) => {
-    return JSON.parse(JSON.stringify(await knex.select('id').from('users').where({ id: id })))[0];
+    return knex
+        .select(data)
+        .from('users')
+        .where({ id: id })
+        .first();
 };
