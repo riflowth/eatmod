@@ -49,3 +49,10 @@ You can run the commands below in sequence to run this web application.
 
 *(docker) mysql default port: 3306* <br>
 *(docker) phpmyadmin default port: 8000*
+
+### 👀 Preview
+![alt text](https://i.imgur.com/jxHH5fJ.png "The screenshot of index page of Eatmod")
+
+![alt text](https://i.imgur.com/5W3AYbI.png "The screenshot of all food list page of Eatmod")
+
+![alt text](https://i.imgur.com/yxznF3z.png "The screenshot of shop page of Eatmod")
