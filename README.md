@@ -51,8 +51,9 @@ You can run the commands below in sequence to run this web application.
 *(docker) phpmyadmin default port: 8000*
 
 ### 👀 Preview
-![alt text](https://i.imgur.com/jxHH5fJ.png "The screenshot of index page of Eatmod")
 
-![alt text](https://i.imgur.com/5W3AYbI.png "The screenshot of all food list page of Eatmod")
+| Index | All foods | Shop information |
+|:-----:|:---------:|:----------------:|
+| <img src="https://i.imgur.com/jxHH5fJ.png" alt="The screenshot of index page of Eatmod" width="400"> | <img src="https://i.imgur.com/5W3AYbI.png" alt="The screenshot of all food list page of Eatmod" width="415"> | <img src="https://i.imgur.com/yxznF3z.png" alt="The screenshot of shop page of Eatmod" width="400"> |
 
-![alt text](https://i.imgur.com/yxznF3z.png "The screenshot of shop page of Eatmod")
+> These previews are just some parts of our website. If you want to see more details, you can install it by following the installation.
