@@ -9,8 +9,7 @@ exports.convertRawDataToArray = (rawdata) => {
 }
 
 exports.convertRawDataToValue = (rawdata) => {
-    let value = Object.values(JSON.parse(JSON.stringify(rawdata[0])))[0]
-    return value;
+    return Object.values(JSON.parse(JSON.stringify(rawdata[0])))[0];
 }
 
 exports.findMenusById = async (id) => {
@@ -71,7 +70,7 @@ exports.findMenuTagByMenuId = async (id) => {
 
 exports.findMenuIdByTag = async (tag) => {
     const menuId = [];
-    const lastId = this.findLastId();
+    const lastId = await this.findLastId();
 
     for (let i = 1, k = 0; i < lastId; i++) {
         let comparers = await this.findMenuTagByMenuId(i);
