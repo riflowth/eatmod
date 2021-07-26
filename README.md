@@ -32,7 +32,7 @@ and then
 knex seed:run
 ```
 
-4. Once the installation completes, now you can view our web application or contribute to our application.
+4. Once the installation completes, now you can view our web application on (localhost:3000) or contribute to our application.
 
 Feel free to send us the **[pull request](https://github.com/CPE34-A2/EatMod/pulls)** or if you have found out something works malfunction, we would appreciate it if you could let me know by sending us the **[issue ticket](https://github.com/CPE34-A2/EatMod/issues)**.
 
@@ -47,7 +47,8 @@ You can run the commands below in sequence to run this web application.
 ~/eatmod> npm test
 ```
 
-*(docker) mysql default port: 3306* <br>
+*(web) default port: 3000 for development*  
+*(docker) mysql default port: 3306*  
 *(docker) phpmyadmin default port: 8000*
 
 ### 👀 Preview

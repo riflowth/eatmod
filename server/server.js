@@ -25,7 +25,7 @@ Instagram.initialize();
 
 const SessionStore  = require('connect-session-knex')(session);
 const app           = express();
-const port          = (process.env.PORT || 8080);
+const port          = (process.env.PORT || 3000);
 
 // Directory
 const publicPath    = path.join(__dirname + '/../public');
